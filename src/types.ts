@@ -25,5 +25,4 @@ export interface Icon {
 export interface Options {
   init?: Parameters<typeof fetch>[1];
   minSize?: number;
-  preferSquare?: boolean;
 }
