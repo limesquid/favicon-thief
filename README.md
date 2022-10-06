@@ -2,6 +2,8 @@
 
 Find the best favicon for a given URL.
 
+Powers [https://websktop.com](https://websktop.com).
+
 ![Version](https://img.shields.io/github/package-json/v/limesquid/favicon-thief)
 ![License](https://img.shields.io/npm/l/favicon-thief)
 ![Node version](https://img.shields.io/node/v/favicon-thief)
