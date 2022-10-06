@@ -8,7 +8,7 @@ const getHtmlCandidateUrls = (url: string): string[] => {
 
   if (urlObject.port && urlObject.port !== '80') {
     const urlPort80Object = new URL(url);
-    urlPort80Object.port = '80';
+    urlPort80Object.port = '';
     candidateUrls.push(urlPort80Object.origin);
   }
 
