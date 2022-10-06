@@ -1,4 +1,5 @@
-import { ProbeResult } from 'probe-image-size';
+import type fetch from 'node-fetch';
+import type { ProbeResult } from 'probe-image-size';
 
 export interface ImageInfo {
   height: number;
@@ -13,4 +14,10 @@ export interface Candidate {
 export interface Icon {
   url: string;
   info: ProbeResult;
+}
+
+export interface Options {
+  init?: Parameters<typeof fetch>[1];
+  minSize?: number;
+  preferSquare?: boolean;
 }

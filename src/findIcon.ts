@@ -9,14 +9,15 @@ import {
   isGoodIcon,
   sortIcons,
 } from './lib';
-import { Icon } from './types';
+import { Options, Icon } from './types';
 
 /**
  * Tries to find an icon that represents given URL best.
  * Favors large and square icons.
  * It never throws.
  */
-const findIcon = async (url: string, init?: Parameters<typeof fetch>[1]): Promise<Icon | null> => {
+const findIcon = async (url: string, options: Options = {}): Promise<Icon | null> => {
+  const { init } = options;
   const htmlCandidateUrls = getHtmlCandidateUrls(url);
   const htmlCandidateUrlsStack = [...htmlCandidateUrls].reverse();
   const icons: Icon[] = [];
@@ -45,7 +46,7 @@ const findIcon = async (url: string, init?: Parameters<typeof fetch>[1]): Promis
             const iconInfo = await probeImageSize(iconCandidateUrl);
 
             // bail out early if good-enough icon already has been found
-            if (isGoodIcon(iconInfo)) {
+            if (isGoodIcon(iconInfo, options)) {
               return { url: iconCandidateUrl, info: iconInfo };
             }
 

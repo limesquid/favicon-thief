@@ -1,11 +1,16 @@
-import { MIN_GOOD_ICON_SIZE } from '../constants';
-import { ImageInfo } from '../types';
+import { DEFAULT_MIN_SIZE, DEFAULT_PREFER_SQUARE } from '../constants';
+import { ImageInfo, Options } from '../types';
 
-const isGoodIcon = (imageInfo: ImageInfo): boolean => {
-  const isSquare = imageInfo.width === imageInfo.height;
-  const isMinSize = imageInfo.width * imageInfo.height >= MIN_GOOD_ICON_SIZE;
+const isGoodIcon = (imageInfo: ImageInfo, options: Options = {}): boolean => {
+  const { minSize = DEFAULT_MIN_SIZE, preferSquare = DEFAULT_PREFER_SQUARE } = options;
+  const isMinSize = imageInfo.width * imageInfo.height >= minSize;
 
-  return isSquare && isMinSize;
+  if (preferSquare) {
+    const isSquare = imageInfo.width === imageInfo.height;
+    return isSquare && isMinSize;
+  }
+
+  return isMinSize;
 };
 
 export default isGoodIcon;
