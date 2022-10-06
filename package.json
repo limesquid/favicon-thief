@@ -46,7 +46,7 @@
     "prettier": "prettier --check src/",
     "prettier:fix": "prettier --write src/",
     "prebuild": "npm run clean",
-    "prerelease": "npm run test && npm run build",
+    "prerelease": "npm run prettier && npm run test && npm run build",
     "release": "np",
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
