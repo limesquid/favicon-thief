@@ -22,3 +22,108 @@ npm install favicon-thief --save
 ```Shell
 yarn add favicon-thief
 ```
+
+# API
+
+## `findIcon`
+
+Tries to find an icon that represents given URL best.
+Favors vector images, square images, and then large images.
+It's faster than `findIcons`.
+It never throws.
+
+```ts
+import { findIcon } from 'favicon-thief';
+
+const icon = await findIcon('https://duckduckgo.com');
+
+console.log(icon);
+// {
+//   width: 256,
+//   height: 256,
+//   type: 'png',
+//   mime: 'image/png',
+//   wUnits: 'px',
+//   hUnits: 'px',
+//   length: 6693,
+//   url: 'https://duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png'
+// }
+```
+
+## `findIcons`
+
+Tries to find all icons that represent given URL.
+Icons are sorted descending (best first).
+Favors vector images, square images, and then large images.
+It never throws.
+
+```ts
+import { findIcons } from 'favicon-thief';
+
+const icons = await findIcons('https://duckduckgo.com');
+
+console.log(icons);
+// [
+//   {
+//     width: 256,
+//     height: 256,
+//     type: 'png',
+//     mime: 'image/png',
+//     wUnits: 'px',
+//     hUnits: 'px',
+//     length: 6693,
+//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png'
+//   },
+//   {
+//     width: 152,
+//     height: 152,
+//     type: 'png',
+//     mime: 'image/png',
+//     wUnits: 'px',
+//     hUnits: 'px',
+//     length: 2034,
+//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_152x152.png'
+//   },
+//   {
+//     width: 120,
+//     height: 120,
+//     type: 'png',
+//     mime: 'image/png',
+//     wUnits: 'px',
+//     hUnits: 'px',
+//     length: 1652,
+//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_120x120.png'
+//   },
+//   {
+//     width: 76,
+//     height: 76,
+//     type: 'png',
+//     mime: 'image/png',
+//     wUnits: 'px',
+//     hUnits: 'px',
+//     length: 1144,
+//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_76x76.png'
+//   },
+//   {
+//     width: 60,
+//     height: 60,
+//     type: 'png',
+//     mime: 'image/png',
+//     wUnits: 'px',
+//     hUnits: 'px',
+//     length: 866,
+//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_60x60.png'
+//   },
+//   {
+//     width: 32,
+//     height: 32,
+//     variants: [ [Object], [Object] ],
+//     type: 'ico',
+//     mime: 'image/x-icon',
+//     wUnits: 'px',
+//     hUnits: 'px',
+//     length: 5430,
+//     url: 'https://duckduckgo.com/favicon.ico'
+//   }
+// ]
+```
