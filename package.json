@@ -1,7 +1,7 @@
 {
   "name": "favicon-thief",
   "version": "0.0.1",
-  "description": "Find & fetch best favicons for a given URL",
+  "description": "Find the best favicon for a given URL.",
   "keywords": [
     "favicon",
     "thief",

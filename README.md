@@ -1,6 +1,6 @@
 # favicon-thief
 
-Find & fetch best favicons for a given URL.
+Find the best favicon for a given URL.
 
 ![Version](https://img.shields.io/github/package-json/v/limesquid/favicon-thief)
 ![License](https://img.shields.io/npm/l/favicon-thief)
