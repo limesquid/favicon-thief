@@ -1,14 +1,20 @@
 import type fetch from 'node-fetch';
 import type { ProbeResult } from 'probe-image-size';
 
-export interface ImageInfo {
+import { ANY_SIZE } from './constants';
+
+export type ScalableVectorImageSize = typeof ANY_SIZE;
+
+export interface RasterImageSize {
   height: number;
   width: number;
 }
 
+export type ImageSize = ScalableVectorImageSize | RasterImageSize;
+
 export interface Candidate {
+  size: ImageSize | null;
   url: string;
-  info: ImageInfo | null;
 }
 
 export interface Icon {

@@ -24,8 +24,8 @@ const extractCandidates = (html: string, documentHref: string): Candidate[] => {
         const sizes = $($link).attr('sizes');
 
         return {
+          size: parseLinkRelIconSizes(sizes),
           url: buildAbsoluteURL(baseHref, linkHref),
-          info: parseLinkRelIconSizes(sizes),
         };
       }),
   ];

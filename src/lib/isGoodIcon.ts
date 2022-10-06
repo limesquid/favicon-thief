@@ -1,12 +1,15 @@
-import { DEFAULT_MIN_SIZE, DEFAULT_PREFER_SQUARE } from '../constants';
-import { ImageInfo, Options } from '../types';
+import { ProbeResult } from 'probe-image-size';
 
-const isGoodIcon = (imageInfo: ImageInfo, options: Options = {}): boolean => {
+import { DEFAULT_MIN_SIZE, DEFAULT_PREFER_SQUARE } from '../constants';
+import { Options } from '../types';
+
+const isGoodIcon = (result: ProbeResult, options: Options = {}): boolean => {
   const { minSize = DEFAULT_MIN_SIZE, preferSquare = DEFAULT_PREFER_SQUARE } = options;
-  const isMinSize = imageInfo.width * imageInfo.height >= minSize;
+  const { height, width } = result;
+  const isMinSize = width * height >= minSize;
 
   if (preferSquare) {
-    const isSquare = imageInfo.width === imageInfo.height;
+    const isSquare = width === height;
     return isSquare && isMinSize;
   }
 

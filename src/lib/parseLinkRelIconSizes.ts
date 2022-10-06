@@ -1,9 +1,9 @@
 import { ANY_SIZE } from '../constants';
-import { ImageInfo } from '../types';
+import { ImageSize } from '../types';
 
 import compareIcons from './compareIcons';
 
-const parseLinkRelIconSize = (size: string): ImageInfo | null => {
+const parseLinkRelIconSize = (size: string): ImageSize | null => {
   const [widthString, heightString] = size.split('x');
   const width = parseInt(widthString, 10);
   const height = parseInt(heightString, 10);
@@ -15,12 +15,12 @@ const parseLinkRelIconSize = (size: string): ImageInfo | null => {
   return { width, height };
 };
 
-const parseLinkRelIconSizes = (sizes: string | undefined): ImageInfo | null => {
+const parseLinkRelIconSizes = (sizes: string | undefined): ImageSize | null => {
   if (!sizes) {
     return null;
   }
 
-  if (sizes === 'any') {
+  if (sizes === ANY_SIZE) {
     return ANY_SIZE;
   }
 
