@@ -55,20 +55,17 @@ console.log(icon);
 
 Function will return as soon as an icon with dimensions greater than this parameter is found. Defaults to `256 * 256`.
 
+If no icon with given size is found, still, largest found icon will be returned.
+
 ```ts
 import { findIcon } from 'favicon-thief';
 
 const icon = await findIcon('https://duckduckgo.com', {
-  minSize: 16 * 16,
+  minSize: 128 * 128,
 });
 
-console.log(icon);
-// {
-//   width: 152,
-//   height: 152,
-//   /* ... */
-//   url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_152x152.png'
-// }
+console.log(icon.width + 'x' + icon.height);
+// 152x152
 ```
 
 ## `findIcons`
@@ -84,43 +81,15 @@ import { findIcons } from 'favicon-thief';
 
 const icons = await findIcons('https://duckduckgo.com');
 
-console.log(icons);
-// [
-//   {
-//     width: 256,
-//     height: 256,
-//     /* ... */
-//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png'
-//   },
-//   {
-//     width: 152,
-//     height: 152,
-//     /* ... */
-//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_152x152.png'
-//   },
-//   {
-//     width: 120,
-//     height: 120,
-//     /* ... */
-//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_120x120.png'
-//   },
-//   {
-//     width: 76,
-//     height: 76,
-//     /* ... */
-//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_76x76.png'
-//   },
-//   {
-//     width: 60,
-//     height: 60,
-//     /* ... */
-//     url: 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_60x60.png'
-//   },
-//   {
-//     width: 32,
-//     height: 32,
-//     /* ... */
-//     url: 'https://duckduckgo.com/favicon.ico'
-//   }
-// ]
+console.table(icons);
+// ┌─────────┬───────┬────────┬───────┬────────────────┬────────┬────────┬────────┬─────────────────────────────────────────────────────────────────────┬────────────────────────┐
+// │ (index) │ width │ height │ type  │      mime      │ wUnits │ hUnits │ length │                                 url                                 │        variants        │
+// ├─────────┼───────┼────────┼───────┼────────────────┼────────┼────────┼────────┼─────────────────────────────────────────────────────────────────────┼────────────────────────┤
+// │    0    │  256  │  256   │ 'png' │  'image/png'   │  'px'  │  'px'  │  6693  │   'https://duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png'   │                        │
+// │    1    │  152  │  152   │ 'png' │  'image/png'   │  'px'  │  'px'  │  2034  │ 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_152x152.png' │                        │
+// │    2    │  120  │  120   │ 'png' │  'image/png'   │  'px'  │  'px'  │  1652  │ 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_120x120.png' │                        │
+// │    3    │  76   │   76   │ 'png' │  'image/png'   │  'px'  │  'px'  │  1144  │  'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_76x76.png'  │                        │
+// │    4    │  60   │   60   │ 'png' │  'image/png'   │  'px'  │  'px'  │  866   │  'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_60x60.png'  │                        │
+// │    5    │  32   │   32   │ 'ico' │ 'image/x-icon' │  'px'  │  'px'  │  5430  │                'https://duckduckgo.com/favicon.ico'                 │ [ [Object], [Object] ] │
+// └─────────┴───────┴────────┴───────┴────────────────┴────────┴────────┴────────┴─────────────────────────────────────────────────────────────────────┴────────────────────────┘
 ```
