@@ -1,3 +1,4 @@
+export { default as defaultHeaders } from './defaultHeaders';
 export { default as extractCandidates } from './extractCandidates';
 export { default as getBaseHref } from './getBaseHref';
 export { default as getCandidateUrls } from './getCandidateUrls';

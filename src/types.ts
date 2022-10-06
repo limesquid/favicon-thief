@@ -19,7 +19,11 @@ export interface Candidate {
 
 export type Icon = ProbeResult;
 
-export interface Options {
+export interface FindIconOptions {
   init?: Parameters<typeof fetch>[1];
   minSize?: number;
+}
+
+export interface FindIconsOptions {
+  init?: Parameters<typeof fetch>[1];
 }

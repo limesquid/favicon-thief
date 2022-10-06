@@ -1,29 +1,39 @@
 import probeImageSize from 'probe-image-size';
 
-import { getCandidateUrls, getHtmlCandidateUrls, isGoodIcon, sortIcons } from './lib';
-import { Options, Icon } from './types';
+import { DEFAULT_MIN_SIZE, DEFAULT_USER_AGENT } from './constants';
+import {
+  defaultHeaders,
+  getCandidateUrls,
+  getHtmlCandidateUrls,
+  isGoodIcon,
+  sortIcons,
+} from './lib';
+import { FindIconOptions, Icon } from './types';
 
 /**
  * Finds an icon that represents given URL best.
  * Favors vector images, square images, and large images (in that order).
  * It never throws.
  */
-const findIcon = async (url: string, options: Options = {}): Promise<Icon | null> => {
-  const htmlCandidateUrls = getHtmlCandidateUrls(url);
-  const htmlCandidateUrlsStack = [...htmlCandidateUrls].reverse();
+const findIcon = async (url: string, options: FindIconOptions = {}): Promise<Icon | null> => {
+  const { init, minSize = DEFAULT_MIN_SIZE } = options;
+  const htmlCandidateUrlsStack = getHtmlCandidateUrls(url).reverse();
   const icons: Icon[] = [];
   let htmlCandidateUrl: string | undefined;
 
   while ((htmlCandidateUrl = htmlCandidateUrlsStack.pop())) {
     try {
-      const candidateUrls = await getCandidateUrls(htmlCandidateUrl, options);
+      const candidateUrls = await getCandidateUrls(
+        htmlCandidateUrl,
+        defaultHeaders(init, { 'User-Agent': DEFAULT_USER_AGENT }),
+      );
 
       for (const candidateUrl of candidateUrls) {
         try {
           const icon = await probeImageSize(candidateUrl);
 
           // bail out early if good-enough icon already has been found
-          if (isGoodIcon(icon, options)) {
+          if (isGoodIcon(icon, minSize)) {
             return icon;
           }
 

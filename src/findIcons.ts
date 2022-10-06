@@ -1,7 +1,8 @@
 import probeImageSize from 'probe-image-size';
 
-import { getCandidateUrls, getHtmlCandidateUrls, sortIcons } from './lib';
-import { Options, Icon } from './types';
+import { DEFAULT_USER_AGENT } from './constants';
+import { defaultHeaders, getCandidateUrls, getHtmlCandidateUrls, sortIcons } from './lib';
+import { FindIconsOptions, Icon } from './types';
 
 /**
  * Finds all icons that represent given URL.
@@ -9,15 +10,18 @@ import { Options, Icon } from './types';
  * Favors vector images, square images, and large images (in that order).
  * It never throws.
  */
-const findIcons = async (url: string, options: Options = {}): Promise<Icon[]> => {
-  const htmlCandidateUrls = getHtmlCandidateUrls(url);
-  const htmlCandidateUrlsStack = [...htmlCandidateUrls].reverse();
+const findIcons = async (url: string, options: FindIconsOptions = {}): Promise<Icon[]> => {
+  const { init } = options;
+  const htmlCandidateUrlsStack = getHtmlCandidateUrls(url).reverse();
   const icons: Icon[] = [];
   let htmlCandidateUrl: string | undefined;
 
   while ((htmlCandidateUrl = htmlCandidateUrlsStack.pop())) {
     try {
-      const candidateUrls = await getCandidateUrls(htmlCandidateUrl, options);
+      const candidateUrls = await getCandidateUrls(
+        htmlCandidateUrl,
+        defaultHeaders(init, { 'User-Agent': DEFAULT_USER_AGENT }),
+      );
 
       for (const candidateUrl of candidateUrls) {
         try {
