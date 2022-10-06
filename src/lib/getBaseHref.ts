@@ -1,7 +1,6 @@
 import { load } from 'cheerio';
+import isAbsoluteUrl from 'is-absolute-url';
 import { buildAbsoluteURL } from 'url-toolkit';
-
-import isAbsoluteUrl from './isAbsoluteUrl';
 
 const getBaseHref = (html: string, documentHref: string): string => {
   const $ = load(html);
