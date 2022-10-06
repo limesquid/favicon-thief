@@ -1,4 +1,5 @@
 export { default as extractCandidates } from './extractCandidates';
+export { default as fetch } from './fetch';
 export { default as getBaseHref } from './getBaseHref';
 export { default as getCandidateUrls } from './getCandidateUrls';
 export { default as getDefaultFaviconUrl } from './getDefaultFaviconUrl';

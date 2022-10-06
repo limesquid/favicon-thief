@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["esnext"],
-    "module": "commonjs",
+    "module": "Node16",
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "noUnusedLocals": true,

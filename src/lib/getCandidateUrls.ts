@@ -1,9 +1,8 @@
-import fetch from 'node-fetch';
-
 import { DEFAULT_USER_AGENT } from '../constants';
 import { Options, Candidate } from '../types';
 
 import extractCandidates from './extractCandidates';
+import fetch from './fetch';
 import getDefaultFaviconUrl from './getDefaultFaviconUrl';
 import sortCandidates from './sortCandidates';
 
