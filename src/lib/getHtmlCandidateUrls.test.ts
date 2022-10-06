@@ -1,21 +1,21 @@
 import getHtmlCandidateUrls from './getHtmlCandidateUrls';
 
 describe('getHtmlCandidateUrls', () => {
-  it('https://example.com', () => {
-    expect(getHtmlCandidateUrls('https://example.com')).toEqual(['https://example.com']);
-  });
+  const tests = [
+    { input: 'https://example.com', expected: ['https://example.com'] },
+    {
+      input: 'https://example.com/xyz',
+      expected: ['https://example.com', 'https://example.com/xyz'],
+    },
+    {
+      input: 'https://example.com:3333',
+      expected: ['https://example.com:3333', 'https://example.com'],
+    },
+  ];
 
-  it('https://example.com/xyz', () => {
-    expect(getHtmlCandidateUrls('https://example.com/xyz')).toEqual([
-      'https://example.com',
-      'https://example.com/xyz',
-    ]);
-  });
-
-  it('https://example.com:3333', () => {
-    expect(getHtmlCandidateUrls('https://example.com:3333')).toEqual([
-      'https://example.com:3333',
-      'https://example.com',
-    ]);
-  });
+  for (const { input, expected } of tests) {
+    it(input, () => {
+      expect(getHtmlCandidateUrls(input)).toEqual(expected);
+    });
+  }
 });

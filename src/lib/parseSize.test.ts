@@ -10,7 +10,7 @@ describe('parseSize', () => {
   ];
 
   for (const { input, expected } of tests) {
-    it(String(input), () => {
+    it(input, () => {
       expect(parseSize(input)).toEqual(expected);
     });
   }
