@@ -5,7 +5,7 @@ import { Candidate } from '../types';
 
 import getBaseHref from './getBaseHref';
 import imageSizeComparator from './imageSizeComparator';
-import parseLinkRelSizes from './parseLinkRelSizes';
+import parseLinkSizes from './parseLinkSizes';
 import sortCandidates from './sortCandidates';
 
 const extractCandidates = (html: string, documentHref: string): Candidate[] => {
@@ -17,19 +17,17 @@ const extractCandidates = (html: string, documentHref: string): Candidate[] => {
     ...$('link[rel="image_src"]'), // stackoverflow.com uses this attribute
   ];
   const baseHref = getBaseHref(html, documentHref);
-  const candidates = [
-    ...$links
-      .filter(($link) => $($link).attr('href'))
-      .map(($link) => {
-        const linkHref = $($link).attr('href')!; // assured by filter() above
-        const sizes = $($link).attr('sizes');
-        const imageSizes = parseLinkRelSizes(sizes);
-        const [size = null] = imageSizes.sort(imageSizeComparator);
-        const url = buildAbsoluteURL(baseHref, linkHref);
+  const candidates = $links
+    .filter(($link) => $($link).attr('href'))
+    .map(($link) => {
+      const linkHref = $($link).attr('href')!; // assured by filter() above
+      const sizes = $($link).attr('sizes');
+      const imageSizes = parseLinkSizes(sizes);
+      const [size = null] = imageSizes.sort(imageSizeComparator);
+      const url = buildAbsoluteURL(baseHref, linkHref);
 
-        return { size, url };
-      }),
-  ];
+      return { size, url };
+    });
 
   return sortCandidates(candidates);
 };
