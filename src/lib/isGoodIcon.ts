@@ -1,5 +1,5 @@
-import { MIN_GOOD_ICON_SIZE } from './constants';
-import { ImageInfo } from './types';
+import { MIN_GOOD_ICON_SIZE } from '../constants';
+import { ImageInfo } from '../types';
 
 const isGoodIcon = (imageInfo: ImageInfo): boolean => {
   const isSquare = imageInfo.width === imageInfo.height;

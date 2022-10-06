@@ -1,4 +1,4 @@
-import { ImageInfo } from './types';
+import { ImageInfo } from '../types';
 
 /**
  * Favors square images, and then large images.

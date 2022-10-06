@@ -5,7 +5,7 @@ export interface ImageInfo {
   width: number;
 }
 
-export interface IconCandidate {
+export interface Candidate {
   url: string;
   info: ImageInfo | null;
 }

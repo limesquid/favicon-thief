@@ -1,11 +1,13 @@
 import fetch from 'node-fetch';
 import probeImageSize from 'probe-image-size';
 
-import extractIconCandidates from './extractIconCandidates';
-import getDefaultFaviconIcoUrl from './getDefaultFaviconIcoUrl';
-import getHtmlCandidateUrls from './getHtmlCandidateUrls';
-import isGoodIcon from './isGoodIcon';
-import sortIcons from './sortIcons';
+import {
+  extractCandidates,
+  getDefaultFaviconUrl,
+  getHtmlCandidateUrls,
+  isGoodIcon,
+  sortIcons,
+} from './lib';
 import { Icon } from './types';
 
 const REQUEST_HEADERS = {
@@ -29,13 +31,13 @@ const findIcon = async (url: string): Promise<Icon | null> => {
 
       if (response.ok) {
         const html = await response.text();
-        const iconCandidates = extractIconCandidates(html, htmlCandidateUrl);
-        const iconCandidatesUrls = [
-          ...iconCandidates.map(({ url }) => url),
-          getDefaultFaviconIcoUrl(htmlCandidateUrl),
+        const candidates = extractCandidates(html, htmlCandidateUrl);
+        const candidatesUrls = [
+          ...candidates.map(({ url }) => url),
+          getDefaultFaviconUrl(htmlCandidateUrl),
         ];
 
-        for (const iconCandidateUrl of iconCandidatesUrls) {
+        for (const iconCandidateUrl of candidatesUrls) {
           try {
             const iconInfo = await probeImageSize(iconCandidateUrl);
 

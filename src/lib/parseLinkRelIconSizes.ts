@@ -1,6 +1,7 @@
+import { ANY_SIZE } from '../constants';
+import { ImageInfo } from '../types';
+
 import compareIcons from './compareIcons';
-import { ANY_SIZE } from './constants';
-import { ImageInfo } from './types';
 
 const parseLinkRelIconSize = (size: string): ImageInfo | null => {
   const [widthString, heightString] = size.split('x');

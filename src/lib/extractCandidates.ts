@@ -1,12 +1,13 @@
 import { load } from 'cheerio';
 import { buildAbsoluteURL } from 'url-toolkit';
 
+import { Candidate } from '../types';
+
 import getBaseHref from './getBaseHref';
 import parseLinkRelIconSizes from './parseLinkRelIconSizes';
-import sortIconCandidates from './sortIconCandidates';
-import { IconCandidate } from './types';
+import sortCandidates from './sortCandidates';
 
-const extractIconCandidates = (html: string, documentHref: string): IconCandidate[] => {
+const extractCandidates = (html: string, documentHref: string): Candidate[] => {
   const $ = load(html);
   const $links = [
     ...$('link[rel="shortcut icon"]'),
@@ -29,7 +30,7 @@ const extractIconCandidates = (html: string, documentHref: string): IconCandidat
       }),
   ];
 
-  return sortIconCandidates(candidates);
+  return sortCandidates(candidates);
 };
 
-export default extractIconCandidates;
+export default extractCandidates;
