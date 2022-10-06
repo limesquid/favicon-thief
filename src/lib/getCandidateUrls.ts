@@ -6,6 +6,7 @@ import { Options, Candidate } from '../types';
 import extractCandidates from './extractCandidates';
 import getDefaultFaviconUrl from './getDefaultFaviconUrl';
 import sortCandidates from './sortCandidates';
+import unique from './unique';
 
 /**
  * Retrieves URLs under which favicons may be found for a given URL.
@@ -33,7 +34,7 @@ const getCandidateUrls = async (url: string, options: Options): Promise<Candidat
       getDefaultFaviconUrl(url),
     ];
 
-    return candidateUrls;
+    return unique(candidateUrls);
   } catch {
     return [];
   }
