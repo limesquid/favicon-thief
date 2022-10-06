@@ -43,8 +43,8 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "tsc --project .",
-    "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write .",
+    "prettier": "prettier --check src/",
+    "prettier:fix": "prettier --write src/",
     "prebuild": "npm run clean",
     "prerelease": "npm run test && npm run build",
     "release": "np",
