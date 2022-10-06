@@ -1,8 +1,8 @@
 import { ANY_SIZE } from '../constants';
 
-import parseLinkRelIconSizes from './parseLinkRelIconSizes';
+import parseLinkRelSizes from './parseLinkRelSizes';
 
-describe('parseLinkRelIconSizes', () => {
+describe('parseLinkRelSizes', () => {
   const tests = [
     { input: undefined, expected: [] },
     { input: 'any', expected: [ANY_SIZE] },
@@ -19,7 +19,7 @@ describe('parseLinkRelIconSizes', () => {
 
   for (const { input, expected } of tests) {
     it(String(input), () => {
-      expect(parseLinkRelIconSizes(input)).toEqual(expected);
+      expect(parseLinkRelSizes(input)).toEqual(expected);
     });
   }
 });
