@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import probeImageSize from 'probe-image-size';
 
+import { DEFAULT_USER_AGENT } from './constants';
 import {
   extractCandidates,
   getDefaultFaviconUrl,
@@ -10,16 +11,12 @@ import {
 } from './lib';
 import { Icon } from './types';
 
-const REQUEST_HEADERS = {
-  'User-Agent': 'Favicon Bot (https://www.npmjs.com/package/favicon-thief)',
-};
-
 /**
  * Tries to find an icon that represents given URL best.
  * Favors large and square icons.
  * It never throws.
  */
-const findIcon = async (url: string): Promise<Icon | null> => {
+const findIcon = async (url: string, init?: Parameters<typeof fetch>[1]): Promise<Icon | null> => {
   const htmlCandidateUrls = getHtmlCandidateUrls(url);
   const htmlCandidateUrlsStack = [...htmlCandidateUrls].reverse();
   const icons: Icon[] = [];
@@ -27,7 +24,13 @@ const findIcon = async (url: string): Promise<Icon | null> => {
 
   while ((htmlCandidateUrl = htmlCandidateUrlsStack.pop())) {
     try {
-      const response = await fetch(htmlCandidateUrl, { headers: REQUEST_HEADERS });
+      const response = await fetch(htmlCandidateUrl, {
+        ...init,
+        headers: {
+          'User-Agent': DEFAULT_USER_AGENT,
+          ...(init ? init.headers : {}),
+        },
+      });
 
       if (response.ok) {
         const html = await response.text();
