@@ -2,7 +2,7 @@ import { ANY_SIZE } from '../constants';
 import type { ImageSize } from '../types';
 
 /**
- * Favors vector images, then square images, and then large images.
+ * Favors vector images, square images, and then large images.
  */
 const imageSizeComparator = (size1: ImageSize | null, size2: ImageSize | null): number => {
   if (size1 === null && size2 === null) {

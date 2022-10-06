@@ -1,24 +1,14 @@
-import fetch from 'node-fetch';
 import probeImageSize from 'probe-image-size';
 
-import { DEFAULT_USER_AGENT } from './constants';
-import {
-  extractCandidates,
-  getDefaultFaviconUrl,
-  getHtmlCandidateUrls,
-  isGoodIcon,
-  sortCandidates,
-  sortIcons,
-} from './lib';
+import { getCandidateUrls, getHtmlCandidateUrls, isGoodIcon, sortIcons } from './lib';
 import { Options, Icon } from './types';
 
 /**
  * Tries to find an icon that represents given URL best.
- * Favors large and square icons.
+ * Favors vector images, square images, and then large images.
  * It never throws.
  */
 const findIcon = async (url: string, options: Options = {}): Promise<Icon | null> => {
-  const { init } = options;
   const htmlCandidateUrls = getHtmlCandidateUrls(url);
   const htmlCandidateUrlsStack = [...htmlCandidateUrls].reverse();
   const icons: Icon[] = [];
@@ -26,27 +16,9 @@ const findIcon = async (url: string, options: Options = {}): Promise<Icon | null
 
   while ((htmlCandidateUrl = htmlCandidateUrlsStack.pop())) {
     try {
-      const response = await fetch(htmlCandidateUrl, {
-        ...init,
-        headers: {
-          'User-Agent': DEFAULT_USER_AGENT,
-          ...(init ? init.headers : {}),
-        },
-      });
+      const candidateUrls = await getCandidateUrls(htmlCandidateUrl, options);
 
-      if (!response.ok) {
-        // skip this htmlCandidateUrl
-        continue;
-      }
-
-      const html = await response.text();
-      const candidates = extractCandidates(html, htmlCandidateUrl);
-      const candidatesUrls = [
-        ...sortCandidates(candidates).map(({ url }) => url),
-        getDefaultFaviconUrl(htmlCandidateUrl),
-      ];
-
-      for (const candidateUrl of candidatesUrls) {
+      for (const candidateUrl of candidateUrls) {
         try {
           const info = await probeImageSize(candidateUrl);
           const icon = { url: candidateUrl, info };
@@ -64,8 +36,8 @@ const findIcon = async (url: string, options: Options = {}): Promise<Icon | null
 
       // do not try another htmlCandidateUrl website if some icon has been found
       if (icons.length > 0) {
-        const [bestIconCandidate] = sortIcons(icons);
-        return bestIconCandidate;
+        const [bestIcon] = sortIcons(icons);
+        return bestIcon;
       }
     } catch {
       // skip this htmlCandidateUrl

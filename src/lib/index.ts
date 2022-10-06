@@ -1,5 +1,6 @@
 export { default as extractCandidates } from './extractCandidates';
 export { default as getBaseHref } from './getBaseHref';
+export { default as getCandidateUrls } from './getCandidateUrls';
 export { default as getDefaultFaviconUrl } from './getDefaultFaviconUrl';
 export { default as getHtmlCandidateUrls } from './getHtmlCandidateUrls';
 export { default as imageSizeComparator } from './imageSizeComparator';
