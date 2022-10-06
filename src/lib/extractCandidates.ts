@@ -6,7 +6,6 @@ import { Candidate } from '../types';
 import getBaseHref from './getBaseHref';
 import imageSizeComparator from './imageSizeComparator';
 import parseLinkSizes from './parseLinkSizes';
-import sortCandidates from './sortCandidates';
 
 const extractCandidates = (html: string, documentHref: string): Candidate[] => {
   const $ = load(html);
@@ -23,13 +22,13 @@ const extractCandidates = (html: string, documentHref: string): Candidate[] => {
       const linkHref = $($link).attr('href')!; // assured by filter() above
       const sizes = $($link).attr('sizes');
       const imageSizes = parseLinkSizes(sizes);
-      const [size = null] = imageSizes.sort(imageSizeComparator);
+      const [maxSize = null] = imageSizes.sort(imageSizeComparator);
       const url = buildAbsoluteURL(baseHref, linkHref);
 
-      return { size, url };
+      return { size: maxSize, url };
     });
 
-  return sortCandidates(candidates);
+  return candidates;
 };
 
 export default extractCandidates;

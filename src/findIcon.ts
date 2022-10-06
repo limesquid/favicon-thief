@@ -7,6 +7,7 @@ import {
   getDefaultFaviconUrl,
   getHtmlCandidateUrls,
   isGoodIcon,
+  sortCandidates,
   sortIcons,
 } from './lib';
 import { Options, Icon } from './types';
@@ -33,37 +34,38 @@ const findIcon = async (url: string, options: Options = {}): Promise<Icon | null
         },
       });
 
-      if (response.ok) {
-        const html = await response.text();
-        const candidates = extractCandidates(html, htmlCandidateUrl);
-        const candidatesUrls = [
-          ...candidates.map(({ url }) => url),
-          getDefaultFaviconUrl(htmlCandidateUrl),
-        ];
+      if (!response.ok) {
+        // skip this htmlCandidateUrl
+        continue;
+      }
 
-        for (const iconCandidateUrl of candidatesUrls) {
-          try {
-            const iconInfo = await probeImageSize(iconCandidateUrl);
+      const html = await response.text();
+      const candidates = extractCandidates(html, htmlCandidateUrl);
+      const candidatesUrls = [
+        ...sortCandidates(candidates).map(({ url }) => url),
+        getDefaultFaviconUrl(htmlCandidateUrl),
+      ];
 
-            // bail out early if good-enough icon already has been found
-            if (isGoodIcon(iconInfo, options)) {
-              return { url: iconCandidateUrl, info: iconInfo };
-            }
+      for (const candidateUrl of candidatesUrls) {
+        try {
+          const info = await probeImageSize(candidateUrl);
+          const icon = { url: candidateUrl, info };
 
-            icons.push({
-              url: iconCandidateUrl,
-              info: iconInfo,
-            });
-          } catch {
-            // skip this iconCandidateUrl
+          // bail out early if good-enough icon already has been found
+          if (isGoodIcon(info, options)) {
+            return icon;
           }
-        }
 
-        // do not try another htmlCandidateUrl website if some icon has been found
-        if (icons.length > 0) {
-          const [bestIconCandidate] = sortIcons(icons);
-          return bestIconCandidate;
+          icons.push(icon);
+        } catch {
+          // skip this candidateUrl
         }
+      }
+
+      // do not try another htmlCandidateUrl website if some icon has been found
+      if (icons.length > 0) {
+        const [bestIconCandidate] = sortIcons(icons);
+        return bestIconCandidate;
       }
     } catch {
       // skip this htmlCandidateUrl
