@@ -1,5 +1,5 @@
 import { ANY_SIZE } from '../constants';
-import { ImageSize } from '../types';
+import type { ImageSize } from '../types';
 
 import parseSize from './parseSize';
 

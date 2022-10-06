@@ -1,5 +1,5 @@
 import { ANY_SIZE } from '../constants';
-import { ImageSize } from '../types';
+import type { ImageSize } from '../types';
 
 /**
  * Favors vector images, then square images, and then large images.

@@ -1,7 +1,7 @@
 import { load } from 'cheerio';
 import { buildAbsoluteURL } from 'url-toolkit';
 
-import { Candidate } from '../types';
+import type { Candidate } from '../types';
 
 import getBaseHref from './getBaseHref';
 import imageSizeComparator from './imageSizeComparator';

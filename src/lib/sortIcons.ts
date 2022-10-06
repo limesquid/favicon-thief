@@ -1,4 +1,4 @@
-import { Icon } from '../types';
+import type { Icon } from '../types';
 
 import imageSizeComparator from './imageSizeComparator';
 

@@ -1,4 +1,4 @@
-import { ImageSize } from '../types';
+import type { ImageSize } from '../types';
 
 const parseSize = (size: string): ImageSize | null => {
   const [widthString, heightString] = size.split('x');
