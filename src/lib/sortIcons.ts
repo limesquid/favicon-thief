@@ -1,9 +1,9 @@
 import { Icon } from '../types';
 
-import compareIcons from './compareIcons';
+import imageSizeComparator from './imageSizeComparator';
 
 const sortIcons = (icons: Icon[]): Icon[] => {
-  return [...icons].sort((icon1, icon2) => compareIcons(icon1.info, icon2.info));
+  return [...icons].sort((icon1, icon2) => imageSizeComparator(icon1.info, icon2.info));
 };
 
 export default sortIcons;

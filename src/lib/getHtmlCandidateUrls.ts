@@ -1,5 +1,7 @@
 import { URL } from 'url';
 
+import unique from './unique';
+
 const getHtmlCandidateUrls = (url: string): string[] => {
   const urlObject = new URL(url); // throws on invalid url
   const candidateUrls: string[] = [];
@@ -16,7 +18,7 @@ const getHtmlCandidateUrls = (url: string): string[] => {
     candidateUrls.push(urlObject.href);
   }
 
-  return Array.from(new Set(candidateUrls));
+  return unique(candidateUrls);
 };
 
 export default getHtmlCandidateUrls;

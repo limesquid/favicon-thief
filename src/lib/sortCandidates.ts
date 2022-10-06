@@ -1,10 +1,10 @@
 import { Candidate } from '../types';
 
-import compareIcons from './compareIcons';
+import imageSizeComparator from './imageSizeComparator';
 
 const sortCandidates = (candidates: Candidate[]): Candidate[] => {
   return [...candidates].sort((candidate1, candidate2) => {
-    return compareIcons(candidate1.info, candidate2.info);
+    return imageSizeComparator(candidate1.size, candidate2.size);
   });
 };
 

@@ -1,8 +1,6 @@
 import { ANY_SIZE } from '../constants';
 import { ImageSize } from '../types';
 
-import compareIcons from './compareIcons';
-
 const parseLinkRelIconSize = (size: string): ImageSize | null => {
   const [widthString, heightString] = size.split('x');
   const width = parseInt(widthString, 10);
@@ -15,19 +13,17 @@ const parseLinkRelIconSize = (size: string): ImageSize | null => {
   return { width, height };
 };
 
-const parseLinkRelIconSizes = (sizes: string | undefined): ImageSize | null => {
+const parseLinkRelIconSizes = (sizes: string | undefined): ImageSize[] => {
   if (!sizes) {
-    return null;
+    return [];
   }
 
-  if (sizes === ANY_SIZE) {
-    return ANY_SIZE;
+  if (sizes === 'any') {
+    return [ANY_SIZE];
   }
 
-  const supportedSizes = sizes.toLowerCase().split(' ').map(parseLinkRelIconSize);
-  const [bestSize = null] = supportedSizes.sort(compareIcons);
-
-  return bestSize;
+  const imageSizes = sizes.replace(/\s+/gm, ' ').toLowerCase().split(' ').map(parseLinkRelIconSize);
+  return imageSizes.filter(Boolean) as ImageSize[];
 };
 
 export default parseLinkRelIconSizes;

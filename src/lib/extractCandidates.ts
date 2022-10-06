@@ -4,6 +4,7 @@ import { buildAbsoluteURL } from 'url-toolkit';
 import { Candidate } from '../types';
 
 import getBaseHref from './getBaseHref';
+import imageSizeComparator from './imageSizeComparator';
 import parseLinkRelIconSizes from './parseLinkRelIconSizes';
 import sortCandidates from './sortCandidates';
 
@@ -22,11 +23,11 @@ const extractCandidates = (html: string, documentHref: string): Candidate[] => {
       .map(($link) => {
         const linkHref = $($link).attr('href')!; // assured by filter() above
         const sizes = $($link).attr('sizes');
+        const imageSizes = parseLinkRelIconSizes(sizes);
+        const [size = null] = imageSizes.sort(imageSizeComparator);
+        const url = buildAbsoluteURL(baseHref, linkHref);
 
-        return {
-          size: parseLinkRelIconSizes(sizes),
-          url: buildAbsoluteURL(baseHref, linkHref),
-        };
+        return { size, url };
       }),
   ];
 

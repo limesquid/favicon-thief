@@ -2,9 +2,9 @@ import { ANY_SIZE } from '../constants';
 import { ImageSize } from '../types';
 
 /**
- * Favors square images, and then large images.
+ * Favors vector images, then square images, and then large images.
  */
-const compareIcons = (size1: ImageSize | null, size2: ImageSize | null): number => {
+const imageSizeComparator = (size1: ImageSize | null, size2: ImageSize | null): number => {
   if (size1 === null && size2 === null) {
     return 0;
   }
@@ -49,4 +49,4 @@ const compareIcons = (size1: ImageSize | null, size2: ImageSize | null): number 
   return image2Size - image1Size;
 };
 
-export default compareIcons;
+export default imageSizeComparator;

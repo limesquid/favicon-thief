@@ -18,8 +18,8 @@ export interface Candidate {
 }
 
 export interface Icon {
-  url: string;
   info: ProbeResult;
+  url: string;
 }
 
 export interface Options {
