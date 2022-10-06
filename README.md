@@ -9,6 +9,8 @@ Powers [https://websktop.com](https://websktop.com).
 ![Node version](https://img.shields.io/node/v/favicon-thief)
 ![Dependencies](https://img.shields.io/librariesio/github/limesquid/favicon-thief)
 ![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/limesquid/favicon-thief)
+![Build](https://github.com/limesquid/favicon-thief/workflows/Build/badge.svg)
+![Test](https://github.com/limesquid/favicon-thief/workflows/Test/badge.svg)
 ![Prettier](https://github.com/limesquid/favicon-thief/workflows/Prettier/badge.svg)
 
 # Installation
