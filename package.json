@@ -64,7 +64,6 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "is-absolute-url": "^4.0.1",
     "node-fetch": "3.2.8",
     "probe-image-size": "^7.2.3",
     "url-toolkit": "^2.2.5"
