@@ -4,6 +4,7 @@ export { default as getCandidateUrls } from './getCandidateUrls';
 export { default as getDefaultFaviconUrl } from './getDefaultFaviconUrl';
 export { default as getHtmlCandidateUrls } from './getHtmlCandidateUrls';
 export { default as imageSizeComparator } from './imageSizeComparator';
+export { default as isAbsoluteUrl } from './isAbsoluteUrl';
 export { default as isGoodIcon } from './isGoodIcon';
 export { default as parseLinkSizes } from './parseLinkSizes';
 export { default as parseSize } from './parseSize';
