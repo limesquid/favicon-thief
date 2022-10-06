@@ -4,9 +4,9 @@ import { getCandidateUrls, getHtmlCandidateUrls, sortIcons } from './lib';
 import { Options, Icon } from './types';
 
 /**
- * Tries to find all icons that represent given URL.
- * Icons are sorted descending (best first).
- * Favors vector images, square images, and then large images.
+ * Finds all icons that represent given URL.
+ * Results are sorted - best first.
+ * Favors vector images, square images, and large images (in that order).
  * It never throws.
  */
 const findIcons = async (url: string, options: Options = {}): Promise<Icon[]> => {

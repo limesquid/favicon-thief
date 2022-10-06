@@ -27,10 +27,11 @@ yarn add favicon-thief
 
 ## `findIcon`
 
-Tries to find an icon that represents given URL best.
-Favors vector images, square images, and then large images.
-It's faster than `findIcons`.
-It never throws.
+Finds an icon that represents given URL best.
+
+- favors vector images, square images, and large images (in that order)
+- it's faster than `findIcons`
+- it never throws
 
 ```ts
 import { findIcon } from 'favicon-thief';
@@ -52,10 +53,11 @@ console.log(icon);
 
 ## `findIcons`
 
-Tries to find all icons that represent given URL.
-Icons are sorted descending (best first).
-Favors vector images, square images, and then large images.
-It never throws.
+Finds all icons that represent given URL.
+
+- results are sorted - best first
+- favors vector images, square images, and large images (in that order)
+- it never throws
 
 ```ts
 import { findIcons } from 'favicon-thief';
