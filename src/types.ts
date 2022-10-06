@@ -17,10 +17,7 @@ export interface Candidate {
   url: string;
 }
 
-export interface Icon {
-  info: ProbeResult;
-  url: string;
-}
+export type Icon = ProbeResult;
 
 export interface Options {
   init?: Parameters<typeof fetch>[1];

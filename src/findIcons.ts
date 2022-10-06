@@ -21,8 +21,7 @@ const findIcons = async (url: string, options: Options = {}): Promise<Icon[]> =>
 
       for (const candidateUrl of candidateUrls) {
         try {
-          const info = await probeImageSize(candidateUrl);
-          const icon = { url: candidateUrl, info };
+          const icon = await probeImageSize(candidateUrl);
           icons.push(icon);
         } catch {
           // skip this candidateUrl
