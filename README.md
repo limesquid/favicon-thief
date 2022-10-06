@@ -15,16 +15,8 @@ Powers [https://websktop.com](https://websktop.com).
 
 # Installation
 
-## npm
-
 ```Shell
 npm install favicon-thief --save
-```
-
-## yarn
-
-```Shell
-yarn add favicon-thief
 ```
 
 # API
