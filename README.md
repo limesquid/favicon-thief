@@ -13,8 +13,6 @@ Powers [https://websktop.com](https://websktop.com).
 ![Test](https://github.com/limesquid/favicon-thief/workflows/Test/badge.svg)
 ![Prettier](https://github.com/limesquid/favicon-thief/workflows/Prettier/badge.svg)
 
-![alt favicon-thief usage at https://websktop.com](https://raw.githubusercontent.com/limesquid/favicon-thief/master/img/screenshot.jpg)
-
 # Installation
 
 ## npm
