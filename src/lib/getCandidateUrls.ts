@@ -14,20 +14,23 @@ import unique from './unique';
 const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candidate['url'][]> => {
   try {
     const response = await fetch(url, init);
+    const defaultFaviconUrls = unique([
+      getDefaultFaviconUrl(url),
+      getDefaultFaviconUrl(response.url),
+    ]);
 
     if (!response.ok) {
-      return [];
+      return defaultFaviconUrls;
     }
 
     const html = await response.text();
     const candidates = extractCandidates(html, url);
-    const candidateUrls = [
+    const candidateUrls = unique([
       ...sortCandidates(candidates).map(({ url }) => url),
-      getDefaultFaviconUrl(url),
-      getDefaultFaviconUrl(response.url),
-    ];
+      ...defaultFaviconUrls,
+    ]);
 
-    return unique(candidateUrls);
+    return candidateUrls;
   } catch {
     return [];
   }
