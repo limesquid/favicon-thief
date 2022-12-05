@@ -13,16 +13,22 @@ const MIME_TO_EXTENSION = {
   'image/svg+xml': '.svg',
 };
 
+const runOne = async (website) => {
+  const url = 'https://' + website;
+  console.log('Checking', url);
+  const icon = await findIcon(url);
+  console.log(icon);
+  console.log(icon.url, icon.mime);
+  // const extension = MIME_TO_EXTENSION[icon.mime];
+  // const filename = website + extension;
+  // download(icon.url, `download/${filename}`);
+};
+
 const run = async () => {
   for (const website of top500) {
-    const url = 'https://' + website;
-    console.log('Checking', url);
-    const icon = await findIcon(url);
-    console.log(icon.url, icon.mime);
-    // const extension = MIME_TO_EXTENSION[icon.mime];
-    // const filename = website + extension;
-    // download(icon.url, `download/${filename}`);
+    runOne(website);
   }
 };
 
 run();
+// runOne('sites.google.com');
