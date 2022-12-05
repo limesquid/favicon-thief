@@ -24,6 +24,7 @@ const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candid
     const candidateUrls = [
       ...sortCandidates(candidates).map(({ url }) => url),
       getDefaultFaviconUrl(url),
+      getDefaultFaviconUrl(response.url),
     ];
 
     return unique(candidateUrls);
