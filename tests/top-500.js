@@ -1,3 +1,6 @@
+// List: https://moz.com/top500
+// CSV: https://moz.com/top-500/download/?table=top500Domains
+
 module.exports = [
   'youtube.com',
   'www.blogger.com',
@@ -110,7 +113,7 @@ module.exports = [
   'mirror.co.uk',
   'aliexpress.com',
   'photos.google.com',
-  'marketingplatform.google....',
+  'marketingplatform.google.com',
   'amazon.de',
   'ok.ru',
   'bloomberg.com',
