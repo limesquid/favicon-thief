@@ -15,8 +15,8 @@ const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candid
   try {
     const response = await fetch(url, init);
     const defaultFaviconUrls = unique([
-      getDefaultFaviconUrl(url),
       getDefaultFaviconUrl(response.url),
+      getDefaultFaviconUrl(url),
     ]);
 
     if (!response.ok) {
@@ -24,7 +24,7 @@ const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candid
     }
 
     const html = await response.text();
-    const candidates = extractCandidates(html, url);
+    const candidates = extractCandidates(html, response.url);
     const candidateUrls = unique([
       ...sortCandidates(candidates).map(({ url }) => url),
       ...defaultFaviconUrls,
