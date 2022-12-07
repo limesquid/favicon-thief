@@ -1,22 +1,6 @@
-const download = require('download');
-const fs = require('fs');
-const mkdirp = require('mkdirp');
-
 const { findIcon } = require('../build');
 
 const top500 = require('./top-500-websites-list');
-
-const DOWNLOAD_DIR = 'download';
-
-const MIME_TO_EXTENSION = {
-  'image/png': '.png',
-  'image/x-icon': '.ico',
-  'image/jpg': '.jpg',
-  'image/jpeg': '.jpeg',
-  'image/bmp': '.bmp',
-  'image/svg+xml': '.svg',
-  'image/webp': '.webp',
-};
 
 const HEADERS = {
   Accept: '*/*',
@@ -26,32 +10,22 @@ const HEADERS = {
 };
 
 const runOne = async (website) => {
-  try {
-    const url = 'http://' + website;
-    console.log('Checking', url);
+  const url = 'http://' + website;
+  let icon = null;
 
-    const icon = await findIcon(url, {
+  try {
+    console.log(`🌐 ${website}`);
+    icon = await findIcon(url, {
       init: {
         headers: HEADERS,
         follow: 100,
       },
     });
-
-    if (icon === null) {
-      console.log({
-        icon,
-        website,
-        url,
-      });
-    } else {
-      const extension = MIME_TO_EXTENSION[icon.mime];
-      const filename = website + extension;
-      mkdirp(DOWNLOAD_DIR);
-      fs.writeFileSync(`${DOWNLOAD_DIR}/${filename}`, await download(icon.url));
-    }
   } catch (error) {
     console.error(error);
   }
+
+  console.log(`${icon === null ? '❌' : '✅'} ${website}`);
 };
 
 const run = async () => {
