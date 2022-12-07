@@ -14,20 +14,41 @@ import unique from './unique';
 const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candidate['url'][]> => {
   try {
     const response = await fetch(url, init);
+    const defaultFaviconUrls = unique([
+      getDefaultFaviconUrl(response.url),
+      getDefaultFaviconUrl(url),
+    ]);
 
     if (!response.ok) {
-      return [];
+      if (process.env.NODE_ENV === 'test') {
+        const error = `Failed to fetch ${url}: ${response.status} ${response.statusText}`;
+
+        try {
+          const message = await response.text();
+          const finalError = [error, message].join('\n');
+          console.error(finalError);
+        } catch {
+          // response is not a text
+          console.error(error);
+        }
+      }
+
+      return defaultFaviconUrls;
     }
 
     const html = await response.text();
-    const candidates = extractCandidates(html, url);
-    const candidateUrls = [
+    const candidates = extractCandidates(html, response.url);
+    const candidateUrls = unique([
       ...sortCandidates(candidates).map(({ url }) => url),
-      getDefaultFaviconUrl(url),
-    ];
+      ...defaultFaviconUrls,
+    ]);
 
-    return unique(candidateUrls);
-  } catch {
+    return candidateUrls;
+  } catch (error) {
+    if (process.env.NODE_ENV === 'test') {
+      console.error(error);
+    }
+
     return [];
   }
 };

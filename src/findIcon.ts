@@ -38,8 +38,12 @@ const findIcon = async (url: string, options: FindIconOptions = {}): Promise<Ico
           }
 
           icons.push(icon);
-        } catch {
+        } catch (error) {
           // skip this candidateUrl
+
+          if (process.env.NODE_ENV === 'test') {
+            console.error(error);
+          }
         }
       }
 
@@ -48,8 +52,12 @@ const findIcon = async (url: string, options: FindIconOptions = {}): Promise<Ico
         const [bestIcon] = sortIcons(icons);
         return bestIcon;
       }
-    } catch {
+    } catch (error) {
       // skip this htmlCandidateUrl
+
+      if (process.env.NODE_ENV === 'test') {
+        console.error(error);
+      }
     }
   }
 
