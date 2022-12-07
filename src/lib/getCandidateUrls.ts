@@ -20,6 +20,19 @@ const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candid
     ]);
 
     if (!response.ok) {
+      if (process.env.NODE_ENV === 'test') {
+        const error = `Failed to fetch ${url}: ${response.status} ${response.statusText}`;
+
+        try {
+          const message = await response.text();
+          const finalError = [error, message].join('\n');
+          console.error(finalError);
+        } catch {
+          // response is not a text
+          console.error(error);
+        }
+      }
+
       return defaultFaviconUrls;
     }
 
@@ -31,7 +44,11 @@ const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candid
     ]);
 
     return candidateUrls;
-  } catch {
+  } catch (error) {
+    if (process.env.NODE_ENV === 'test') {
+      console.error(error);
+    }
+
     return [];
   }
 };
