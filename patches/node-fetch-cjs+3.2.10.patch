@@ -1,8 +1,8 @@
 diff --git a/node_modules/node-fetch-cjs/dist/index.d.ts b/node_modules/node-fetch-cjs/dist/index.d.ts
-index 734826d..f9d72c0 100644
+index 734826d..5e2cfe8 100644
 --- a/node_modules/node-fetch-cjs/dist/index.d.ts
 +++ b/node_modules/node-fetch-cjs/dist/index.d.ts
-@@ -1,15 +1,6 @@
+@@ -1,15 +1,48 @@
  /// <reference types="node" />
  
  import {RequestOptions} from 'http';
@@ -15,10 +15,52 @@ index 734826d..f9d72c0 100644
 -	fileFrom,
 -	fileFromSync
 -} from 'fetch-blob/from.js';
++
++interface URLSearchParams {
++	/** Appends a specified key/value pair as a new search parameter. */
++	append(name: string, value: string): void;
++	/** Deletes the given search parameter, and its associated value, from the list of all search parameters. */
++	delete(name: string): void;
++	/** Returns the first value associated to the given search parameter. */
++	get(name: string): string | null;
++	/** Returns all the values association with a given search parameter. */
++	getAll(name: string): string[];
++	/** Returns a Boolean indicating if such a search parameter exists. */
++	has(name: string): boolean;
++	/** Sets the value associated to a given search parameter to the given value. If there were several values, delete the others. */
++	set(name: string, value: string): void;
++	sort(): void;
++	/** Returns a string containing a query string suitable for use in a URL. Does not include the question mark. */
++	toString(): string;
++	forEach(callbackfn: (value: string, key: string, parent: URLSearchParams) => void, thisArg?: any): void;
++}
++
++interface URL {
++	hash: string;
++	host: string;
++	hostname: string;
++	href: string;
++	toString(): string;
++	readonly origin: string;
++	password: string;
++	pathname: string;
++	port: string;
++	protocol: string;
++	search: string;
++	readonly searchParams: URLSearchParams;
++	username: string;
++	toJSON(): string;
++}
++
++declare var URLSearchParams: {
++	prototype: URLSearchParams;
++	new(init?: string[][] | Record<string, string> | string | URLSearchParams): URLSearchParams;
++	toString(): string;
++};
  
  type AbortSignal = {
  	readonly aborted: boolean;
-@@ -20,16 +11,6 @@ type AbortSignal = {
+@@ -20,16 +53,6 @@ type AbortSignal = {
  
  export type HeadersInit = Headers | Record<string, string> | Iterable<readonly [string, string]> | Iterable<Iterable<string>>;
  
@@ -35,7 +77,7 @@ index 734826d..f9d72c0 100644
  /**
   * This Fetch API interface allows you to perform various actions on HTTP request and response headers.
   * These actions include retrieving, setting, adding to, and removing.
-@@ -220,4 +201,4 @@ export default function fetch(url: RequestInfo, init?: RequestInit): Promise<Res
+@@ -220,4 +243,4 @@ export default function fetch(url: RequestInfo, init?: RequestInit): Promise<Res
  
  export const Blob: typeof globalThis.Blob;
  
