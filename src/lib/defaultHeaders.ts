@@ -1,4 +1,4 @@
-import type { RequestInit } from 'node-fetch';
+import type { RequestInit } from 'node-fetch-cjs';
 
 const defaultHeaders = (init?: RequestInit, headers?: RequestInit['headers']): RequestInit => ({
   ...init,
