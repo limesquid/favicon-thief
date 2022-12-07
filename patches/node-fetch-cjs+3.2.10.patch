@@ -1,0 +1,44 @@
+diff --git a/node_modules/node-fetch-cjs/dist/index.d.ts b/node_modules/node-fetch-cjs/dist/index.d.ts
+index 734826d..f9d72c0 100644
+--- a/node_modules/node-fetch-cjs/dist/index.d.ts
++++ b/node_modules/node-fetch-cjs/dist/index.d.ts
+@@ -1,15 +1,6 @@
+ /// <reference types="node" />
+ 
+ import {RequestOptions} from 'http';
+-import {FormData} from 'formdata-polyfill/esm.min.js';
+-import {
+-	Blob,
+-	blobFrom,
+-	blobFromSync,
+-	File,
+-	fileFrom,
+-	fileFromSync
+-} from 'fetch-blob/from.js';
+ 
+ type AbortSignal = {
+ 	readonly aborted: boolean;
+@@ -20,16 +11,6 @@ type AbortSignal = {
+ 
+ export type HeadersInit = Headers | Record<string, string> | Iterable<readonly [string, string]> | Iterable<Iterable<string>>;
+ 
+-export {
+-	FormData,
+-	Blob,
+-	blobFrom,
+-	blobFromSync,
+-	File,
+-	fileFrom,
+-	fileFromSync
+-};
+-
+ /**
+  * This Fetch API interface allows you to perform various actions on HTTP request and response headers.
+  * These actions include retrieving, setting, adding to, and removing.
+@@ -220,4 +201,4 @@ export default function fetch(url: RequestInfo, init?: RequestInit): Promise<Res
+ 
+ export const Blob: typeof globalThis.Blob;
+ 
+-export declare const FormData: { new (): FormData; prototype: FormData; };
+\ No newline at end of file
++export type FormData = { new (): FormData; prototype: FormData; };
