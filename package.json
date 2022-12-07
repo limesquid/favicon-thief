@@ -50,7 +50,7 @@
     "release": "np",
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
-    "test:top-500": "NODE_ENV=test node tests/index.js",
+    "test:top-500": "NODE_ENV=test node tests/top-500.js",
     "test:watch": "jest --watch"
   },
   "dependencies": {
