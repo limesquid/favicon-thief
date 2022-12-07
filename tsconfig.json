@@ -12,6 +12,7 @@
     "noUnusedParameters": true,
     "outDir": "./build",
     "rootDir": "./src",
+    "skipLibCheck": true,
     "strict": true,
     "target": "es2021"
   },
