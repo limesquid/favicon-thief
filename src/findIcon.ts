@@ -54,6 +54,7 @@ const findIcon = async (url: string, options: FindIconOptions = {}): Promise<Ico
       }
     } catch (error) {
       // skip this htmlCandidateUrl
+
       if (process.env.NODE_ENV === 'test') {
         console.error(error);
       }
