@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "node-fetch": "^2.6.7",
+    "node-fetch-cjs": "^3.2.10",
     "probe-image-size": "^7.2.3",
     "url-toolkit": "^2.2.5"
   },

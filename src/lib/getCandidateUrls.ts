@@ -1,4 +1,4 @@
-import fetch, { RequestInit } from 'node-fetch';
+import fetch, { RequestInit } from 'node-fetch-cjs';
 
 import { Candidate } from '../types';
 

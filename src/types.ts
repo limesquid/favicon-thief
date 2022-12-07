@@ -1,4 +1,4 @@
-import type fetch from 'node-fetch';
+import type fetch from 'node-fetch-cjs';
 import type { ProbeResult } from 'probe-image-size';
 
 import { ANY_SIZE } from './constants';
