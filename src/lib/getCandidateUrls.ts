@@ -1,8 +1,10 @@
+import { load } from 'cheerio';
 import fetch, { RequestInit } from 'node-fetch-cjs';
 
 import { Candidate } from '../types';
 
 import extractCandidates from './extractCandidates';
+import extractHttpEquivRefreshUrl from './extractHttpEquivRefreshUrl';
 import getDefaultFaviconUrl from './getDefaultFaviconUrl';
 import sortCandidates from './sortCandidates';
 import unique from './unique';
@@ -37,7 +39,14 @@ const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candid
     }
 
     const html = await response.text();
-    const candidates = extractCandidates(html, response.url);
+    const $ = load(html);
+    const httpEquivRefreshUrl = extractHttpEquivRefreshUrl($);
+
+    if (typeof httpEquivRefreshUrl === 'string') {
+      return getCandidateUrls(httpEquivRefreshUrl, init);
+    }
+
+    const candidates = extractCandidates($, response.url);
     const candidateUrls = unique([
       ...sortCandidates(candidates).map(({ url }) => url),
       ...defaultFaviconUrls,

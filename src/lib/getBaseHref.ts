@@ -1,10 +1,9 @@
-import { load } from 'cheerio';
+import { CheerioAPI } from 'cheerio';
 import { buildAbsoluteURL } from 'url-toolkit';
 
 import isAbsoluteUrl from './isAbsoluteUrl';
 
-const getBaseHref = (html: string, documentHref: string): string => {
-  const $ = load(html);
+const getBaseHref = ($: CheerioAPI, documentHref: string): string => {
   const [$base] = Array.from($('base'));
   const baseHref = $base && $($base).attr('href');
   const isBaseHrefAbsolute = baseHref ? isAbsoluteUrl(baseHref) : false;

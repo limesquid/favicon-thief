@@ -1,4 +1,4 @@
-import { load } from 'cheerio';
+import { CheerioAPI } from 'cheerio';
 import { buildAbsoluteURL } from 'url-toolkit';
 
 import type { Candidate } from '../types';
@@ -7,15 +7,14 @@ import getBaseHref from './getBaseHref';
 import imageSizeComparator from './imageSizeComparator';
 import parseLinkSizes from './parseLinkSizes';
 
-const extractCandidates = (html: string, documentHref: string): Candidate[] => {
-  const $ = load(html);
+const extractCandidates = ($: CheerioAPI, documentHref: string): Candidate[] => {
   const $links = [
     ...$('link[rel="shortcut icon"]'),
     ...$('link[rel="icon"]'),
     ...$('link[rel="apple-touch-icon"]'),
     ...$('link[rel="image_src"]'), // stackoverflow.com uses this attribute
   ];
-  const baseHref = getBaseHref(html, documentHref);
+  const baseHref = getBaseHref($, documentHref);
   const candidates = $links
     .filter(($link) => $($link).attr('href'))
     .map(($link) => {
