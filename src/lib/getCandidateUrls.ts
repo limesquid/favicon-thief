@@ -9,11 +9,17 @@ import getDefaultFaviconUrl from './getDefaultFaviconUrl';
 import sortCandidates from './sortCandidates';
 import unique from './unique';
 
+const MAX_HTTP_EQUIV_REDIRECTS = 3;
+
 /**
  * Retrieves URLs under which favicons may be found for a given URL.
  * It never throws.
  */
-const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candidate['url'][]> => {
+const getCandidateUrls = async (
+  url: string,
+  init?: RequestInit,
+  redirects = 0,
+): Promise<Candidate['url'][]> => {
   try {
     const response = await fetch(url, init);
     const defaultFaviconUrls = unique([
@@ -42,8 +48,8 @@ const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candid
     const $ = load(html);
     const httpEquivRefreshUrl = extractHttpEquivRefreshUrl($);
 
-    if (typeof httpEquivRefreshUrl === 'string') {
-      return getCandidateUrls(httpEquivRefreshUrl, init);
+    if (typeof httpEquivRefreshUrl === 'string' && redirects < MAX_HTTP_EQUIV_REDIRECTS) {
+      return getCandidateUrls(httpEquivRefreshUrl, init, redirects + 1);
     }
 
     const candidates = extractCandidates($, response.url);
