@@ -1,4 +1,5 @@
 import { CheerioAPI } from 'cheerio';
+
 import parseHttpEquivRefresh from './parseHttpEquivRefresh';
 
 const extractHttpEquivRefreshUrl = ($: CheerioAPI): string | null => {
