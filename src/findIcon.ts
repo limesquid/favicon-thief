@@ -1,13 +1,7 @@
 import probeImageSize from 'probe-image-size';
 
 import { DEFAULT_MIN_SIZE, DEFAULT_USER_AGENT } from './constants';
-import {
-  defaultHeaders,
-  getCandidateUrls,
-  getHtmlCandidateUrls,
-  isGoodIcon,
-  sortIcons,
-} from './lib';
+import { getCandidateUrls, getHtmlCandidateUrls, isGoodIcon, sortIcons } from './lib';
 import { FindIconOptions, Icon } from './types';
 
 /**
@@ -19,18 +13,19 @@ const findIcon = async (url: string, options: FindIconOptions = {}): Promise<Ico
   const { init, minSize = DEFAULT_MIN_SIZE } = options;
   const htmlCandidateUrlsStack = getHtmlCandidateUrls(url).reverse();
   const icons: Icon[] = [];
+  const headers = {
+    'User-Agent': DEFAULT_USER_AGENT,
+    ...init?.headers,
+  };
   let htmlCandidateUrl: string | undefined;
 
   while ((htmlCandidateUrl = htmlCandidateUrlsStack.pop())) {
     try {
-      const candidateUrls = await getCandidateUrls(
-        htmlCandidateUrl,
-        defaultHeaders(init, { 'User-Agent': DEFAULT_USER_AGENT }),
-      );
+      const candidateUrls = await getCandidateUrls(htmlCandidateUrl, { ...init, headers });
 
       for (const candidateUrl of candidateUrls) {
         try {
-          const icon = await probeImageSize(candidateUrl);
+          const icon = await probeImageSize(candidateUrl, { headers });
 
           // bail out early if good-enough icon already has been found
           if (isGoodIcon(icon, minSize)) {

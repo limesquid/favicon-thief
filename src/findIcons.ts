@@ -1,7 +1,7 @@
 import probeImageSize from 'probe-image-size';
 
 import { DEFAULT_USER_AGENT } from './constants';
-import { defaultHeaders, getCandidateUrls, getHtmlCandidateUrls, sortIcons } from './lib';
+import { getCandidateUrls, getHtmlCandidateUrls, sortIcons } from './lib';
 import { FindIconsOptions, Icon } from './types';
 
 /**
@@ -14,18 +14,19 @@ const findIcons = async (url: string, options: FindIconsOptions = {}): Promise<I
   const { init } = options;
   const htmlCandidateUrlsStack = getHtmlCandidateUrls(url).reverse();
   const icons: Icon[] = [];
+  const headers = {
+    'User-Agent': DEFAULT_USER_AGENT,
+    ...init?.headers,
+  };
   let htmlCandidateUrl: string | undefined;
 
   while ((htmlCandidateUrl = htmlCandidateUrlsStack.pop())) {
     try {
-      const candidateUrls = await getCandidateUrls(
-        htmlCandidateUrl,
-        defaultHeaders(init, { 'User-Agent': DEFAULT_USER_AGENT }),
-      );
+      const candidateUrls = await getCandidateUrls(htmlCandidateUrl, { ...init, headers });
 
       for (const candidateUrl of candidateUrls) {
         try {
-          const icon = await probeImageSize(candidateUrl);
+          const icon = await probeImageSize(candidateUrl, { headers });
           icons.push(icon);
         } catch {
           // skip this candidateUrl
