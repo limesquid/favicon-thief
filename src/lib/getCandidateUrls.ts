@@ -1,17 +1,25 @@
+import { load } from 'cheerio';
 import fetch, { RequestInit } from 'node-fetch-cjs';
 
 import { Candidate } from '../types';
 
 import extractCandidates from './extractCandidates';
+import extractHttpEquivRefreshUrl from './extractHttpEquivRefreshUrl';
 import getDefaultFaviconUrl from './getDefaultFaviconUrl';
 import sortCandidates from './sortCandidates';
 import unique from './unique';
+
+const MAX_HTTP_EQUIV_REDIRECTS = 3;
 
 /**
  * Retrieves URLs under which favicons may be found for a given URL.
  * It never throws.
  */
-const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candidate['url'][]> => {
+const getCandidateUrls = async (
+  url: string,
+  init?: RequestInit,
+  redirects = 0,
+): Promise<Candidate['url'][]> => {
   try {
     const response = await fetch(url, init);
     const defaultFaviconUrls = unique([
@@ -37,7 +45,14 @@ const getCandidateUrls = async (url: string, init?: RequestInit): Promise<Candid
     }
 
     const html = await response.text();
-    const candidates = extractCandidates(html, response.url);
+    const $ = load(html);
+    const httpEquivRefreshUrl = extractHttpEquivRefreshUrl($);
+
+    if (typeof httpEquivRefreshUrl === 'string' && redirects < MAX_HTTP_EQUIV_REDIRECTS) {
+      return getCandidateUrls(httpEquivRefreshUrl, init, redirects + 1);
+    }
+
+    const candidates = extractCandidates($, response.url);
     const candidateUrls = unique([
       ...sortCandidates(candidates).map(({ url }) => url),
       ...defaultFaviconUrls,
