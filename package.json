@@ -31,7 +31,8 @@
   },
   "homepage": "https://github.com/limesquid/favicon-thief#readme",
   "files": [
-    "build/**"
+    "build/**",
+    "patches/**"
   ],
   "types": "./build/index.d.ts",
   "np": {
