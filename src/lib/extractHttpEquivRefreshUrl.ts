@@ -1,9 +1,10 @@
 import { CheerioAPI } from 'cheerio';
-
 import parseHttpEquivRefresh from './parseHttpEquivRefresh';
 
 const extractHttpEquivRefreshUrl = ($: CheerioAPI): string | null => {
-  const $meta = $('meta[http-equiv="refresh"],meta[http-equiv="REFRESH"]');
+  const $meta = [...$('meta[http-equiv]')].filter(
+    ($meta) => $meta.attribs['http-equiv'].toLocaleLowerCase() === 'refresh',
+  );
 
   if ($meta.length === 0) {
     return null;
