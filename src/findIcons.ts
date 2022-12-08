@@ -26,7 +26,7 @@ const findIcons = async (url: string, options: FindIconsOptions = {}): Promise<I
 
       for (const candidateUrl of candidateUrls) {
         try {
-          const icon = await probeImageSize(candidateUrl);
+          const icon = await probeImageSize(candidateUrl, { headers });
           icons.push(icon);
         } catch {
           // skip this candidateUrl

@@ -25,7 +25,7 @@ const findIcon = async (url: string, options: FindIconOptions = {}): Promise<Ico
 
       for (const candidateUrl of candidateUrls) {
         try {
-          const icon = await probeImageSize(candidateUrl);
+          const icon = await probeImageSize(candidateUrl, { headers });
 
           // bail out early if good-enough icon already has been found
           if (isGoodIcon(icon, minSize)) {
