@@ -25,7 +25,7 @@ const runOne = async (website) => {
     console.error(error);
   }
 
-  console.log(`${icon === null ? '❌' : '✅'} ${website}`);
+  console.log(`${icon === null ? '❌' : '✅'} ${website}${icon ? ` - ${icon.url}` : ''}`);
 };
 
 const run = async () => {
