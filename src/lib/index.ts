@@ -6,6 +6,7 @@ export { default as guessFaviconUrl } from './guessFaviconUrl';
 export { default as extractHttpEquivRefreshUrl } from './extractHttpEquivRefreshUrl';
 export { default as imageSizeComparator } from './imageSizeComparator';
 export { default as isAbsoluteUrl } from './isAbsoluteUrl';
+export { default as isFaviconUrl } from './isFaviconUrl';
 export { default as parseLinkSizes } from './parseLinkSizes';
 export { default as parseHttpEquivRefresh } from './parseHttpEquivRefresh';
 export { default as parseSize } from './parseSize';
