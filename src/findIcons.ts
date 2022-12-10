@@ -3,10 +3,17 @@ import probeImageSize, { ProbeResult } from 'probe-image-size';
 
 import findFaviconLinks from './findFaviconLinks';
 import getStringWithNodeFetch from './getStringWithNodeFetch';
+import getStringWithPuppeteer from './getStringWithPuppeteer';
 import { imageSizeComparator } from './lib';
 
 const findIcons = async (url: string, init?: RequestInit): Promise<ProbeResult[]> => {
-  const faviconLinks = await findFaviconLinks(url, (url) => getStringWithNodeFetch(url, init));
+  const faviconLinks = await findFaviconLinks(url, async (url) => {
+    try {
+      return await getStringWithNodeFetch(url, init);
+    } catch {
+      return await getStringWithPuppeteer(url);
+    }
+  });
   const headers = { ...init?.headers };
   const icons: ProbeResult[] = [];
 
@@ -18,7 +25,7 @@ const findIcons = async (url: string, init?: RequestInit): Promise<ProbeResult[]
       // skip this faviconLink.url
 
       if (process.env.NODE_ENV === 'test') {
-        console.error(error);
+        console.error({ url, error });
       }
     }
   }

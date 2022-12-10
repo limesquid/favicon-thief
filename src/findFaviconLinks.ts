@@ -38,7 +38,7 @@ const findFaviconLinks = async (
       guessedUrls.push(guessFaviconUrl(url), guessFaviconUrl(htmlCandidateUrl));
     } catch (error) {
       if (process.env.NODE_ENV === 'test') {
-        console.error(error);
+        console.error({ url: htmlCandidateUrl, error });
       }
 
       guessedUrls.push(guessFaviconUrl(htmlCandidateUrl));
@@ -69,7 +69,7 @@ const findFaviconLinks = async (
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'test') {
-        console.error(error);
+        console.error({ url: htmlCandidateUrl, error });
       }
     }
   }

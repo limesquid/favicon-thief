@@ -22,7 +22,7 @@ const runOne = async (website) => {
       },
     });
   } catch (error) {
-    console.error(error);
+    console.error({ url, error });
   }
 
   console.log(`${icon === null ? '❌' : '✅'} ${website}${icon ? ` - ${icon.url}` : ''}`);
