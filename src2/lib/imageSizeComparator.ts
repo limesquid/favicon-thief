@@ -4,16 +4,19 @@ import type { ImageSize } from '../types';
 /**
  * Favors vector images, square images, and then large images.
  */
-const imageSizeComparator = (size1: ImageSize | null, size2: ImageSize | null): number => {
-  if (size1 === null && size2 === null) {
+const imageSizeComparator = (
+  size1: ImageSize | null | undefined,
+  size2: ImageSize | null | undefined,
+): number => {
+  if (!size1 && !size2) {
     return 0;
   }
 
-  if (size1 === null) {
+  if (!size1) {
     return 1;
   }
 
-  if (size2 === null) {
+  if (!size2) {
     return -1;
   }
 

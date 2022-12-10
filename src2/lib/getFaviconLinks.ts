@@ -1,10 +1,11 @@
 import { CheerioAPI } from 'cheerio';
 import { buildAbsoluteURL } from 'url-toolkit';
 
+import { FaviconLink } from '../types';
+
 import getBaseHref from './getBaseHref';
 import parseLinkSizes from './parseLinkSizes';
-
-import { FaviconLink } from '../types';
+import sortFaviconLinks from './sortFaviconLinks';
 
 const getFaviconLinks = ($: CheerioAPI, documentHref: string): FaviconLink[] => {
   const $links = [
@@ -14,17 +15,17 @@ const getFaviconLinks = ($: CheerioAPI, documentHref: string): FaviconLink[] => 
     ...$('link[rel="image_src"]'), // stackoverflow.com uses this attribute
   ];
   const baseHref = getBaseHref($, documentHref);
-  const faviconLinks = $links
+  const faviconLinks: FaviconLink[] = $links
     .filter(($link) => $($link).attr('href'))
     .map(($link) => {
       const linkHref = $($link).attr('href')!; // assured by filter() above
       const linkSizes = $($link).attr('sizes');
       const sizes = parseLinkSizes(linkSizes);
       const url = buildAbsoluteURL(baseHref, linkHref);
-      return { sizes, url };
+      return { sizes, source: 'html', url };
     });
 
-  return faviconLinks;
+  return sortFaviconLinks(faviconLinks);
 };
 
 export default getFaviconLinks;
