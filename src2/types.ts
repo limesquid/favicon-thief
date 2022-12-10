@@ -8,11 +8,9 @@ export type FaviconLink = {
 /**
  * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link#attr-sizes
  */
-export type ImageSize = VectorImageSize | RasterImageSize;
-
-export type VectorImageSize = typeof ANY_SIZE;
-
-export interface RasterImageSize {
-  height: number;
-  width: number;
-}
+export type ImageSize =
+  | typeof ANY_SIZE
+  | {
+      height: number;
+      width: number;
+    };
