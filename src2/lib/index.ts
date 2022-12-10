@@ -1,13 +1,11 @@
-// export { default as extractCandidates } from './extractCandidates';
+export { default as createGuessedLinks } from './createGuessedLinks';
 export { default as getBaseHref } from './getBaseHref';
-// export { default as getCandidateUrls } from './getCandidateUrls';
 export { default as getFaviconLinks } from './getFaviconLinks';
 export { default as getHtmlCandidateUrls } from './getHtmlCandidateUrls';
 export { default as guessFaviconUrl } from './guessFaviconUrl';
 export { default as extractHttpEquivRefreshUrl } from './extractHttpEquivRefreshUrl';
 export { default as imageSizeComparator } from './imageSizeComparator';
 export { default as isAbsoluteUrl } from './isAbsoluteUrl';
-// export { default as isGoodIcon } from './isGoodIcon';
 export { default as parseLinkSizes } from './parseLinkSizes';
 export { default as parseHttpEquivRefresh } from './parseHttpEquivRefresh';
 export { default as parseSize } from './parseSize';

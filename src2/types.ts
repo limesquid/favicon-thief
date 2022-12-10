@@ -46,4 +46,4 @@ export type StringResponse = {
   url: string;
 };
 
-export type FetchString = (url: string) => StringResponse;
+export type FetchString = (url: string) => Promise<StringResponse>;

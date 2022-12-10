@@ -1,11 +1,11 @@
 import { load } from 'cheerio';
 
 import {
+  createGuessedLinks,
   extractHttpEquivRefreshUrl,
   getFaviconLinks,
   getHtmlCandidateUrls,
   guessFaviconUrl,
-  unique,
 } from './lib';
 import { FaviconLink, FetchString } from './types';
 
@@ -53,18 +53,18 @@ const findFaviconLinks = async (
         const faviconLinks = await findFaviconLinks(httpEquivRefreshUrl, fetch, maxRedirects - 1);
         const sureFaviconLinks = faviconLinks.filter(({ source }) => source !== 'guess');
 
+        guessedUrls.push(...faviconLinks.map((link) => link.url));
+
         // do not try another htmlCandidateUrl if an icon has been found
         if (sureFaviconLinks.length > 0) {
-          return sureFaviconLinks;
+          return [...sureFaviconLinks, ...createGuessedLinks(guessedUrls)];
         }
-
-        guessedUrls.push(...faviconLinks.map((link) => link.url));
       } else {
         const faviconLinks = getFaviconLinks($, url);
 
         // do not try another htmlCandidateUrl if an icon has been found
         if (faviconLinks.length > 0) {
-          return faviconLinks;
+          return [...faviconLinks, ...createGuessedLinks(guessedUrls)];
         }
       }
     } catch (error) {
@@ -74,7 +74,7 @@ const findFaviconLinks = async (
     }
   }
 
-  return unique(guessedUrls).map((url) => ({ sizes: [], source: 'guess', url }));
+  return createGuessedLinks(guessedUrls);
 };
 
 export default findFaviconLinks;
