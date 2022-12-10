@@ -2,39 +2,22 @@ import puppeteer, { Browser } from 'puppeteer';
 
 import { StringResponse } from './types';
 
-const getStringWithPuppeteer = async (url: string): Promise<StringResponse> => {
+// prevent to redirect to the mobile version of a website
+const DEFAULT_USER_AGENT =
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
+
+const getStringWithPuppeteer = async (
+  url: string,
+  userAgent = DEFAULT_USER_AGENT,
+): Promise<StringResponse> => {
   let browser: Browser | undefined = undefined;
 
   try {
-    console.time(`launching - ${url}`);
-    browser = await puppeteer.launch();
-    console.timeEnd(`launching - ${url}`);
-
-    console.time(`opening - ${url}`);
+    browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    console.timeEnd(`opening - ${url}`);
-
-    console.time(`goto - ${url}`);
-    await page.goto(url);
-    console.timeEnd(`goto - ${url}`);
-
-    console.time(`waitForSelector head - ${url}`);
-    await page.waitForSelector('head');
-    console.timeEnd(`waitForSelector head - ${url}`);
-
-    console.time(`waitForSelector body - ${url}`);
-    await page.waitForSelector('body');
-    console.timeEnd(`waitForSelector body - ${url}`);
-
-    console.time(`waitForNetworkIdle - ${url}`);
-    await page.waitForNetworkIdle();
-    console.timeEnd(`waitForNetworkIdle - ${url}`);
-
-    console.time(`content - ${url}`);
+    await page.setUserAgent(userAgent);
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
     const html = await page.content();
-    console.timeEnd(`content - ${url}`);
-
-    console.log({ html, url: page.url() });
 
     return {
       data: html,
@@ -42,9 +25,7 @@ const getStringWithPuppeteer = async (url: string): Promise<StringResponse> => {
     };
   } finally {
     if (browser) {
-      console.time(`close - ${url}`);
       await browser.close();
-      console.timeEnd(`close - ${url}`);
     }
   }
 };
