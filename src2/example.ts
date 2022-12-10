@@ -40,6 +40,27 @@ const findIcon = async (url: string, init?: RequestInit): Promise<ProbeResult | 
   return bestIcon;
 };
 
+const findIcons = async (url: string, init?: RequestInit): Promise<ProbeResult[]> => {
+  const faviconLinks = await findFaviconLinks(url, (url) => getStringWithNodeFetch(url, init));
+  const headers = { ...init?.headers };
+  const icons: ProbeResult[] = [];
+
+  for (const faviconLink of faviconLinks) {
+    try {
+      const icon = await probeImageSize(faviconLink.url, { headers });
+      icons.push(icon);
+    } catch (error) {
+      // skip this faviconLink.url
+
+      if (process.env.NODE_ENV === 'test') {
+        console.error(error);
+      }
+    }
+  }
+
+  return icons.sort(imageSizeComparator);
+};
+
 const getStringWithNodeFetch = async (url: string, init?: RequestInit): Promise<StringResponse> => {
   const response = await fetch(url, init);
 
