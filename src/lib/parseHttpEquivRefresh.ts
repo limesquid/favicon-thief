@@ -8,8 +8,8 @@ const PATTERN = /^\s*(\d+)(?:\s*;(?:\s*url\s*=)?\s*(?:["']\s*(.*?)\s*['"]|(.*?))
 
 const parseHttpEquivRefresh = (content: string): Result => {
   const matches = PATTERN.exec(content);
-  let timeout = null;
-  let url = null;
+  let timeout: Result['timeout'] = null;
+  let url: Result['url'] = null;
 
   if (matches !== null) {
     timeout = parseInt(matches[1], 10);

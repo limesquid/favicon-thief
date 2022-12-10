@@ -1,54 +1,29 @@
-import probeImageSize from 'probe-image-size';
+import { RequestInit } from 'node-fetch-cjs';
+import probeImageSize, { ProbeResult } from 'probe-image-size';
 
-import { DEFAULT_MIN_SIZE, DEFAULT_USER_AGENT } from './constants';
-import { getCandidateUrls, getHtmlCandidateUrls, isGoodIcon, sortIcons } from './lib';
-import { FindIconOptions, Icon } from './types';
+import findFaviconLinks from './findFaviconLinks';
+import getStringWithNodeFetch from './getStringWithNodeFetch';
+import { imageSizeComparator } from './lib';
 
-/**
- * Finds an icon that represents given URL best.
- * Favors vector images, square images, and large images (in that order).
- * It never throws.
- */
-const findIcon = async (url: string, options: FindIconOptions = {}): Promise<Icon | null> => {
-  const { init, minSize = DEFAULT_MIN_SIZE } = options;
-  const htmlCandidateUrlsStack = getHtmlCandidateUrls(url).reverse();
-  const icons: Icon[] = [];
-  const headers = {
-    'User-Agent': DEFAULT_USER_AGENT,
-    ...init?.headers,
-  };
-  let htmlCandidateUrl: string | undefined;
+const MIN_SIZE = 256 * 256;
 
-  while ((htmlCandidateUrl = htmlCandidateUrlsStack.pop())) {
+const findIcon = async (url: string, init?: RequestInit): Promise<ProbeResult | null> => {
+  const faviconLinks = await findFaviconLinks(url, (url) => getStringWithNodeFetch(url, init));
+  const headers = { ...init?.headers };
+  const icons: ProbeResult[] = [];
+
+  for (const faviconLink of faviconLinks) {
     try {
-      const candidateUrls = await getCandidateUrls(htmlCandidateUrl, { ...init, headers });
+      const icon = await probeImageSize(faviconLink.url, { headers });
 
-      for (const candidateUrl of candidateUrls) {
-        try {
-          const icon = await probeImageSize(candidateUrl, { headers });
-
-          // bail out early if good-enough icon already has been found
-          if (isGoodIcon(icon, minSize)) {
-            return icon;
-          }
-
-          icons.push(icon);
-        } catch (error) {
-          // skip this candidateUrl
-
-          if (process.env.NODE_ENV === 'test') {
-            console.error(error);
-          }
-        }
+      // bail out early if good-enough icon already has been found
+      if (isGoodIcon(icon, MIN_SIZE)) {
+        return icon;
       }
 
-      // do not try another htmlCandidateUrl website if some icon has been found
-      if (icons.length > 0) {
-        const [bestIcon] = sortIcons(icons);
-        return bestIcon;
-      }
+      icons.push(icon);
     } catch (error) {
-      // skip this htmlCandidateUrl
+      // skip this faviconLink.url
 
       if (process.env.NODE_ENV === 'test') {
         console.error(error);
@@ -56,7 +31,19 @@ const findIcon = async (url: string, options: FindIconOptions = {}): Promise<Ico
     }
   }
 
-  return null;
+  // do not try another htmlCandidateUrl website if some icon has been found
+  if (icons.length === 0) {
+    return null;
+  }
+
+  const [bestIcon] = [...icons].sort(imageSizeComparator);
+  return bestIcon;
+};
+
+const isGoodIcon = (icon: ProbeResult, minSize: number): boolean => {
+  const isMinSize = icon.width * icon.height >= minSize;
+  const isSquare = icon.width === icon.height;
+  return isSquare && isMinSize;
 };
 
 export default findIcon;

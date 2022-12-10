@@ -1,29 +1,49 @@
-import type fetch from 'node-fetch-cjs';
-import type { ProbeResult } from 'probe-image-size';
-
 import { ANY_SIZE } from './constants';
 
-export type ScalableVectorImageSize = typeof ANY_SIZE;
+export type FaviconLinkSource =
+  /**
+   * @see https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/dn320426(v=vs.85)?redirectedfrom=MSDN
+   */
+  | 'browserconfig.xml'
+  /**
+   * Meant to use as fallback if no sources of other types are available.
+   */
+  | 'guess'
+  /**
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
+   */
+  | 'html'
+  /**
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link
+   */
+  | 'http-header'
+  /**
+   * @see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/icons
+   */
+  | 'manifest';
 
-export interface RasterImageSize {
-  height: number;
-  width: number;
-}
-
-export type ImageSize = ScalableVectorImageSize | RasterImageSize;
-
-export interface Candidate {
-  size: ImageSize | null;
+export type FaviconLink = {
+  sizes: ImageSize[];
+  source: FaviconLinkSource;
   url: string;
-}
+};
 
-export type Icon = ProbeResult;
+/**
+ * @ see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link#attr-sizes
+ */
+export type ImageSize =
+  | typeof ANY_SIZE
+  | {
+      height: number;
+      width: number;
+    };
 
-export interface FindIconOptions {
-  init?: Parameters<typeof fetch>[1];
-  minSize?: number;
-}
+export type StringResponse = {
+  data: string;
+  /**
+   * Represents response URL. It can be different from request URL in case of a redirect.
+   */
+  url: string;
+};
 
-export interface FindIconsOptions {
-  init?: Parameters<typeof fetch>[1];
-}
+export type FetchString = (url: string) => Promise<StringResponse>;

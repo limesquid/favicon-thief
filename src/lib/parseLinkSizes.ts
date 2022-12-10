@@ -1,6 +1,7 @@
 import { ANY_SIZE } from '../constants';
 import type { ImageSize } from '../types';
 
+import imageSizeComparator from './imageSizeComparator';
 import parseSize from './parseSize';
 
 const parseLinkSizes = (sizes: string | undefined): ImageSize[] => {
@@ -12,8 +13,10 @@ const parseLinkSizes = (sizes: string | undefined): ImageSize[] => {
     return [ANY_SIZE];
   }
 
-  const imageSizes = sizes.replace(/\s+/gm, ' ').toLowerCase().split(' ').map(parseSize);
-  return imageSizes.filter(Boolean) as ImageSize[];
+  const imageSizes = sizes.replace(/\s+/gm, ' ').split(' ').map(parseSize);
+  const validImageSizes = imageSizes.filter(Boolean) as ImageSize[];
+
+  return validImageSizes.sort(imageSizeComparator);
 };
 
 export default parseLinkSizes;
