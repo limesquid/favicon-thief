@@ -12,15 +12,10 @@
     "image",
     "file"
   ],
+  "license": "MIT",
+  "main": "./build/index.js",
   "engines": {
     "node": ">=16"
-  },
-  "main": "./build/index.js",
-  "license": "MIT",
-  "author": {
-    "name": "Kamil Mielnik",
-    "email": "kamil.adam.mielnik@gmail.com",
-    "url": "https://kamilmielnik.com/"
   },
   "repository": {
     "type": "git",
