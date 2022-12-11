@@ -37,13 +37,13 @@
     "access": "public"
   },
   "scripts": {
-    "clean": "rimraf build",
     "build": "tsc --project .",
+    "clean": "rimraf build",
     "postinstall": "patch-package",
-    "prettier": "prettier --check src/",
-    "prettier:fix": "prettier --write src/",
     "prebuild": "npm run clean",
     "prerelease": "npm run prettier && npm run test && npm run build",
+    "prettier": "prettier --check src/",
+    "prettier:fix": "prettier --write src/",
     "release": "np",
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
