@@ -6,7 +6,7 @@ import { StringResponse } from './types';
 const DEFAULT_USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36';
 
-const crawlWithPuppeteer = async (
+const fetchStringPuppeteer = async (
   url: string,
   userAgent = DEFAULT_USER_AGENT,
 ): Promise<StringResponse> => {
@@ -30,4 +30,4 @@ const crawlWithPuppeteer = async (
   }
 };
 
-export default crawlWithPuppeteer;
+export default fetchStringPuppeteer;
