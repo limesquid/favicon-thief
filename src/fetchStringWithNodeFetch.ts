@@ -2,7 +2,10 @@ import fetch, { RequestInit } from 'node-fetch-cjs';
 
 import { StringResponse } from './types';
 
-const fetchStringWithNodeFetch = async (url: string, init?: RequestInit): Promise<StringResponse> => {
+const fetchStringWithNodeFetch = async (
+  url: string,
+  init?: RequestInit,
+): Promise<StringResponse> => {
   const response = await fetch(url, init);
 
   if (!response.ok) {
