@@ -37,5 +37,4 @@ const run = async () => {
   }
 };
 
-// run();
-runOne('pixabay.com');
+run();
