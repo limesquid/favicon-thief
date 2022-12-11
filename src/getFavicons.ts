@@ -1,8 +1,7 @@
 import { RequestInit } from 'node-fetch-cjs';
 
-import fetchStringNode from './fetchStringNode';
-import fetchStringPuppeteer from './fetchStringPuppeteer';
 import findFavicons from './findFavicons';
+import { fetchStringNode, fetchStringPuppeteer } from './lib';
 import { Favicon } from './types';
 
 const getFavicons = async (url: string, init?: RequestInit): Promise<Favicon[]> => {

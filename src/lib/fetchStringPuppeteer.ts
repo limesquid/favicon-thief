@@ -1,7 +1,7 @@
 import puppeteer, { Browser } from 'puppeteer';
 
-import { DEFAULT_USER_AGENT } from './constants';
-import { StringResponse } from './types';
+import { DEFAULT_USER_AGENT } from '../constants';
+import { StringResponse } from '../types';
 
 const fetchStringPuppeteer = async (
   url: string,

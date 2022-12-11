@@ -1,4 +1,6 @@
 export { default as createGuessed } from './createGuessed';
+export { default as fetchStringNode } from './fetchStringNode';
+export { default as fetchStringPuppeteer } from './fetchStringPuppeteer';
 export { default as getBaseHref } from './getBaseHref';
 export { default as getFavicons } from './getFavicons';
 export { default as getHtmlCandidateUrls } from './getHtmlCandidateUrls';
