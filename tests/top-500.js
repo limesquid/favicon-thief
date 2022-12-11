@@ -1,4 +1,4 @@
-const { getFavicons } = require('../build');
+const { DEFAULT_REQUEST_TIMEOUT, getFavicons } = require('../build');
 
 const top500 = require('./top-500-websites-list');
 
@@ -13,14 +13,21 @@ const runOne = async (website) => {
   const url = 'http://' + website;
   let icons = null;
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => {
+    controller.abort();
+  }, DEFAULT_REQUEST_TIMEOUT);
+
   try {
     console.log(`🌐 ${website}`);
     icons = await getFavicons(url, {
       headers: HEADERS,
-      follow: 100,
+      signal: controller.signal,
     });
   } catch (error) {
     console.error({ url, error });
+  } finally {
+    clearTimeout(timeout);
   }
 
   const icon = (icons && icons.find((icon) => icon.source !== 'guess')) || icons[0];
@@ -38,4 +45,4 @@ const run = async () => {
   }
 };
 
-run();
+runOne('ehow.com');
