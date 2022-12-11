@@ -1,4 +1,4 @@
-const { fetchFavicons } = require('../build');
+const { getFavicons } = require('../build');
 
 const top500 = require('./top-500-websites-list');
 
@@ -15,7 +15,7 @@ const runOne = async (website) => {
 
   try {
     console.log(`🌐 ${website}`);
-    icons = await fetchFavicons(url, {
+    icons = await getFavicons(url, {
       headers: HEADERS,
       follow: 100,
     });
