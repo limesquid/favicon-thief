@@ -1,4 +1,4 @@
-const { findIcon } = require('../build');
+const { fetchFavicons } = require('../build');
 
 const top500 = require('./top-500-websites-list');
 
@@ -11,20 +11,19 @@ const HEADERS = {
 
 const runOne = async (website) => {
   const url = 'http://' + website;
-  let icon = null;
+  let icons = null;
 
   try {
     console.log(`🌐 ${website}`);
-    icon = await findIcon(url, {
-      init: {
-        headers: HEADERS,
-        follow: 100,
-      },
+    icons = await fetchFavicons(url, {
+      headers: HEADERS,
+      follow: 100,
     });
   } catch (error) {
     console.error({ url, error });
   }
 
+  const icon = icons && icons[0];
   console.log(`${icon === null ? '❌' : '✅'} ${website}${icon ? ` - ${icon.url}` : ''}`);
 };
 
@@ -38,4 +37,5 @@ const run = async () => {
   }
 };
 
-run();
+// run();
+runOne('pixabay.com');
