@@ -23,8 +23,9 @@ const runOne = async (website) => {
     console.error({ url, error });
   }
 
-  const icon = icons && icons[0];
-  console.log(`${icon === null ? '❌' : '✅'} ${website}${icon ? ` - ${icon.url}` : ''}`);
+  const icon = (icons && icons.find((icon) => icon.source !== 'guess')) || icons[0];
+  const emoji = icon === null ? '❌' : icon.source === 'guess' ? '☑️ ' : '✅';
+  console.log(`${emoji} ${website}${icon ? ` - ${icon.url}` : ''}`);
 };
 
 const run = async () => {
