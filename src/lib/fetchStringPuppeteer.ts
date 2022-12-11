@@ -1,6 +1,6 @@
 import puppeteer, { Browser } from 'puppeteer';
 
-import { DEFAULT_USER_AGENT } from '../constants';
+import { DEFAULT_USER_AGENT, DEFAULT_REQUEST_TIMEOUT } from '../constants';
 import { StringResponse } from '../types';
 
 const fetchStringPuppeteer = async (
@@ -13,7 +13,7 @@ const fetchStringPuppeteer = async (
     browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.setUserAgent(userAgent);
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.goto(url, { timeout: DEFAULT_REQUEST_TIMEOUT, waitUntil: 'domcontentloaded' });
     const html = await page.content();
 
     return {
