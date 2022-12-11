@@ -1,13 +1,13 @@
 import { RequestInit } from 'node-fetch-cjs';
 
+import crawlWithFetch from './crawlWithFetch';
+import crawlWithPuppeteer from './crawlWithPuppeteer';
 import findFavicons from './findFavicons';
-import fetchStringWithNodeFetch from './fetchStringWithNodeFetch';
-import fetchStringWithPuppeteer from './fetchStringWithPuppeteer';
 import { Favicon } from './types';
 
-const fetchFavicons = async (url: string, init?: RequestInit): Promise<Favicon[]> => {
+const crawlFavicons = async (url: string, init?: RequestInit): Promise<Favicon[]> => {
   try {
-    const faviconLinks = await findFavicons(url, (url) => fetchStringWithNodeFetch(url, init));
+    const faviconLinks = await findFavicons(url, (url) => crawlWithFetch(url, init));
 
     if (faviconLinks.some(({ source }) => source !== 'guess')) {
       return faviconLinks;
@@ -21,8 +21,8 @@ const fetchFavicons = async (url: string, init?: RequestInit): Promise<Favicon[]
   return findFavicons(url, (url) => {
     const headers: Record<string, string> = { ...init?.headers };
     const userAgent = headers['User-Agent'];
-    return fetchStringWithPuppeteer(url, userAgent);
+    return crawlWithPuppeteer(url, userAgent);
   });
 };
 
-export default fetchFavicons;
+export default crawlFavicons;

@@ -2,7 +2,7 @@ import fetch, { RequestInit } from 'node-fetch-cjs';
 
 import { StringResponse } from './types';
 
-const fetchStringWithNodeFetch = async (
+const crawlWithFetch = async (
   url: string,
   init?: RequestInit,
 ): Promise<StringResponse> => {
@@ -26,4 +26,4 @@ const fetchStringWithNodeFetch = async (
   };
 };
 
-export default fetchStringWithNodeFetch;
+export default crawlWithFetch;
