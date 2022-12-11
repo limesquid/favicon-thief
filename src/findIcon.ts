@@ -1,20 +1,13 @@
 import { RequestInit } from 'node-fetch-cjs';
 import probeImageSize, { ProbeResult } from 'probe-image-size';
 
-import findFaviconLinks from './findFaviconLinks';
-import getStringWithNodeFetch from './getStringWithNodeFetch';
-import getStringWithPuppeteer from './getStringWithPuppeteer';
+import fetchFaviconLinks from './fetchFaviconLinks';
 import { imageSizeComparator } from './lib';
 
 const MIN_SIZE = 256 * 256;
 
 const findIcon = async (url: string, init?: RequestInit): Promise<ProbeResult | null> => {
-  let faviconLinks = await findFaviconLinks(url, (url) => getStringWithNodeFetch(url, init));
-
-  if (!faviconLinks.some(({ source }) => source !== 'guess')) {
-    faviconLinks = await findFaviconLinks(url, getStringWithPuppeteer);
-  }
-
+  const faviconLinks = await fetchFaviconLinks(url, init);
   const headers = { ...init?.headers };
   const icons: ProbeResult[] = [];
 
