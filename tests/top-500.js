@@ -45,4 +45,4 @@ const run = async () => {
   }
 };
 
-runOne('ehow.com');
+run();
