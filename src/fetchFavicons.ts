@@ -1,13 +1,13 @@
 import { RequestInit } from 'node-fetch-cjs';
 
-import findFaviconLinks from './findFaviconLinks';
+import findFavicons from './findFavicons';
 import fetchStringWithNodeFetch from './fetchStringWithNodeFetch';
 import fetchStringWithPuppeteer from './fetchStringWithPuppeteer';
-import { FaviconLink } from './types';
+import { Favicon } from './types';
 
-const fetchFaviconLinks = async (url: string, init?: RequestInit): Promise<FaviconLink[]> => {
+const fetchFavicons = async (url: string, init?: RequestInit): Promise<Favicon[]> => {
   try {
-    const faviconLinks = await findFaviconLinks(url, (url) => fetchStringWithNodeFetch(url, init));
+    const faviconLinks = await findFavicons(url, (url) => fetchStringWithNodeFetch(url, init));
 
     if (faviconLinks.some(({ source }) => source !== 'guess')) {
       return faviconLinks;
@@ -18,11 +18,11 @@ const fetchFaviconLinks = async (url: string, init?: RequestInit): Promise<Favic
     }
   }
 
-  return findFaviconLinks(url, (url) => {
+  return findFavicons(url, (url) => {
     const headers: Record<string, string> = { ...init?.headers };
     const userAgent = headers['User-Agent'];
     return fetchStringWithPuppeteer(url, userAgent);
   });
 };
 
-export default fetchFaviconLinks;
+export default fetchFavicons;

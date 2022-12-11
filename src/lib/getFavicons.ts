@@ -1,14 +1,14 @@
 import { CheerioAPI } from 'cheerio';
 import { buildAbsoluteURL } from 'url-toolkit';
 
-import { FaviconLink } from '../types';
+import { Favicon } from '../types';
 
 import getBaseHref from './getBaseHref';
 import isFaviconUrl from './isFaviconUrl';
 import parseLinkSizes from './parseLinkSizes';
-import sortFaviconLinks from './sortFaviconLinks';
+import sortFavicons from './sortFavicons';
 
-const getFaviconLinks = ($: CheerioAPI, documentHref: string): FaviconLink[] => {
+const getFavicons = ($: CheerioAPI, documentHref: string): Favicon[] => {
   const $links = [
     ...$('link[rel="shortcut icon"]'),
     ...$('link[rel="icon"]'),
@@ -16,7 +16,7 @@ const getFaviconLinks = ($: CheerioAPI, documentHref: string): FaviconLink[] => 
     ...$('link[rel="image_src"]'), // stackoverflow.com uses this attribute
   ];
   const baseHref = getBaseHref($, documentHref);
-  const faviconLinks: FaviconLink[] = $links
+  const faviconLinks: Favicon[] = $links
     .filter(($link) => isFaviconUrl($($link).attr('href')))
     .map(($link) => {
       const linkHref = $($link).attr('href')!;
@@ -27,7 +27,7 @@ const getFaviconLinks = ($: CheerioAPI, documentHref: string): FaviconLink[] => 
       return { sizes, source: 'html', url };
     });
 
-  return sortFaviconLinks(faviconLinks);
+  return sortFavicons(faviconLinks);
 };
 
-export default getFaviconLinks;
+export default getFavicons;

@@ -1,6 +1,6 @@
-export { default as createGuessedLinks } from './createGuessedLinks';
+export { default as createGuessed } from './createGuessed';
 export { default as getBaseHref } from './getBaseHref';
-export { default as getFaviconLinks } from './getFaviconLinks';
+export { default as getFavicons } from './getFavicons';
 export { default as getHtmlCandidateUrls } from './getHtmlCandidateUrls';
 export { default as guessFaviconUrl } from './guessFaviconUrl';
 export { default as extractHttpEquivRefreshUrl } from './extractHttpEquivRefreshUrl';
@@ -10,6 +10,6 @@ export { default as isFaviconUrl } from './isFaviconUrl';
 export { default as parseLinkSizes } from './parseLinkSizes';
 export { default as parseHttpEquivRefresh } from './parseHttpEquivRefresh';
 export { default as parseSize } from './parseSize';
-export { default as sortFaviconLinks } from './sortFaviconLinks';
+export { default as sortFavicons } from './sortFavicons';
 export { default as sortImageSizes } from './sortImageSizes';
 export { default as unique } from './unique';

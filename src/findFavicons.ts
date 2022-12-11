@@ -1,13 +1,13 @@
 import { load } from 'cheerio';
 
 import {
-  createGuessedLinks,
+  createGuessed,
   extractHttpEquivRefreshUrl,
-  getFaviconLinks,
+  getFavicons,
   getHtmlCandidateUrls,
   guessFaviconUrl,
 } from './lib';
-import { FaviconLink, FetchString } from './types';
+import { Favicon, FetchString } from './types';
 
 const MAX_HTTP_EQUIV_REDIRECTS = 3;
 
@@ -17,11 +17,11 @@ const MAX_HTTP_EQUIV_REDIRECTS = 3;
  * Favors vector images, square images, and large images (in that order).
  * It never throws.
  */
-const findFaviconLinks = async (
+const findFavicons = async (
   url: string,
   fetch: FetchString,
   maxRedirects = MAX_HTTP_EQUIV_REDIRECTS,
-): Promise<FaviconLink[]> => {
+): Promise<Favicon[]> => {
   const htmlCandidateUrls = getHtmlCandidateUrls(url);
   const htmlCandidateUrlsStack = [...htmlCandidateUrls].reverse();
   const guessedUrls: string[] = [];
@@ -50,21 +50,21 @@ const findFaviconLinks = async (
       const httpEquivRefreshUrl = extractHttpEquivRefreshUrl($);
 
       if (typeof httpEquivRefreshUrl === 'string' && maxRedirects > 0) {
-        const faviconLinks = await findFaviconLinks(httpEquivRefreshUrl, fetch, maxRedirects - 1);
-        const sureFaviconLinks = faviconLinks.filter(({ source }) => source !== 'guess');
+        const faviconLinks = await findFavicons(httpEquivRefreshUrl, fetch, maxRedirects - 1);
+        const sureFavicons = faviconLinks.filter(({ source }) => source !== 'guess');
 
         guessedUrls.push(...faviconLinks.map((link) => link.url));
 
         // do not try another htmlCandidateUrl if an icon has been found
-        if (sureFaviconLinks.length > 0) {
-          return [...sureFaviconLinks, ...createGuessedLinks(guessedUrls)];
+        if (sureFavicons.length > 0) {
+          return [...sureFavicons, ...createGuessed(guessedUrls)];
         }
       } else {
-        const faviconLinks = getFaviconLinks($, url);
+        const faviconLinks = getFavicons($, url);
 
         // do not try another htmlCandidateUrl if an icon has been found
         if (faviconLinks.length > 0) {
-          return [...faviconLinks, ...createGuessedLinks(guessedUrls)];
+          return [...faviconLinks, ...createGuessed(guessedUrls)];
         }
       }
     } catch (error) {
@@ -74,7 +74,7 @@ const findFaviconLinks = async (
     }
   }
 
-  return createGuessedLinks(guessedUrls);
+  return createGuessed(guessedUrls);
 };
 
-export default findFaviconLinks;
+export default findFavicons;

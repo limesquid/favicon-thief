@@ -1,6 +1,6 @@
 import { ANY_SIZE } from './constants';
 
-export type FaviconLinkSource =
+export type FaviconSource =
   /**
    * @see https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/dn320426(v=vs.85)?redirectedfrom=MSDN
    */
@@ -22,9 +22,9 @@ export type FaviconLinkSource =
    */
   | 'manifest';
 
-export type FaviconLink = {
+export type Favicon = {
   sizes: ImageSize[];
-  source: FaviconLinkSource;
+  source: FaviconSource;
   url: string;
 };
 
