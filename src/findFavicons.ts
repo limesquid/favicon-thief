@@ -2,8 +2,8 @@ import { load } from 'cheerio';
 
 import {
   createGuessed,
+  extractFavicons,
   extractHttpEquivRefreshUrl,
-  getFavicons,
   getHtmlCandidateUrls,
   guessFaviconUrl,
 } from './lib';
@@ -61,7 +61,7 @@ const findFavicons = async (
           return [...knownFavicons, ...createGuessed(guessedUrls, knownFavicons)];
         }
       } else {
-        const faviconLinks = getFavicons($, url);
+        const faviconLinks = extractFavicons($, url);
 
         // do not try another htmlCandidateUrl if an icon has been found
         if (faviconLinks.length > 0) {

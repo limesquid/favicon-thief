@@ -1,11 +1,11 @@
 export { default as createGuessed } from './createGuessed';
+export { default as extractBaseHref } from './extractBaseHref';
+export { default as extractFavicons } from './extractFavicons';
+export { default as extractHttpEquivRefreshUrl } from './extractHttpEquivRefreshUrl';
 export { default as fetchStringNode } from './fetchStringNode';
 export { default as fetchStringPuppeteer } from './fetchStringPuppeteer';
-export { default as getBaseHref } from './getBaseHref';
-export { default as getFavicons } from './getFavicons';
 export { default as getHtmlCandidateUrls } from './getHtmlCandidateUrls';
 export { default as guessFaviconUrl } from './guessFaviconUrl';
-export { default as extractHttpEquivRefreshUrl } from './extractHttpEquivRefreshUrl';
 export { default as imageSizeComparator } from './imageSizeComparator';
 export { default as isAbsoluteUrl } from './isAbsoluteUrl';
 export { default as isFaviconUrl } from './isFaviconUrl';
