@@ -1,6 +1,6 @@
 import puppeteer, { Browser } from 'puppeteer';
 
-import { DEFAULT_USER_AGENT, DEFAULT_REQUEST_TIMEOUT } from '../constants';
+import { DEFAULT_REQUEST_TIMEOUT, DEFAULT_USER_AGENT } from '../constants';
 import { StringResponse } from '../types';
 
 const fetchStringPuppeteer = async (
