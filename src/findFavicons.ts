@@ -52,20 +52,20 @@ const findFavicons = async (
 
       if (typeof httpEquivRefreshUrl === 'string' && maxRedirects > 0) {
         const faviconLinks = await findFavicons(httpEquivRefreshUrl, fetch, maxRedirects - 1);
-        const sureFavicons = faviconLinks.filter(({ source }) => source !== 'guess');
+        const knownFavicons = faviconLinks.filter(({ source }) => source !== 'guess');
 
         guessedUrls.push(...faviconLinks.map((link) => link.url));
 
         // do not try another htmlCandidateUrl if an icon has been found
-        if (sureFavicons.length > 0) {
-          return [...sureFavicons, ...createGuessed(guessedUrls)];
+        if (knownFavicons.length > 0) {
+          return [...knownFavicons, ...createGuessed(guessedUrls, knownFavicons)];
         }
       } else {
         const faviconLinks = getFavicons($, url);
 
         // do not try another htmlCandidateUrl if an icon has been found
         if (faviconLinks.length > 0) {
-          return [...faviconLinks, ...createGuessed(guessedUrls)];
+          return [...faviconLinks, ...createGuessed(guessedUrls, faviconLinks)];
         }
       }
     } catch (error) {
