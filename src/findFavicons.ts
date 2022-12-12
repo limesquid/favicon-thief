@@ -12,7 +12,8 @@ import { Favicon, FetchString } from './types';
 const MAX_HTTP_EQUIV_REDIRECTS = 3;
 
 /**
- * Finds all icons that represent given URL.
+ * Finds all favicons that represent given URL.
+ * Pass your own fetching function.
  * Results are sorted - best first.
  * Favors vector images, square images, and large images (in that order).
  * It never throws.

@@ -20,71 +20,118 @@ npm install favicon-thief --save
 
 # API
 
-## `findIcon`
+## `getFavicons`
 
-Finds an icon that represents given URL best.
+Uses [`findFavicons`](#findfavicons) to get all favicons that represent given URL. Uses [node-fetch](https://github.com/node-fetch/node-fetch) & [puppeteer](https://github.com/puppeteer/puppeteer) to crawl webpages.
 
-- favors vector images, square images, and large images (in that order)
-- it's faster than `findIcons`
-- it never throws
+- Results are sorted - best first.
+- Favors vector images, square images, and large images (in that order).
+
+It's a wrapper for [`findFavicons`](#findfavicons) that provides [`fetch`](https://github.com/limesquid/favicon-thief/pull/25/files#diff-eaacc35d5a5d88d1ede34aa0d4e69ca13c836d6e7702357865a70b2aba584880R22) implementations.
 
 ```ts
-import { findIcon } from 'favicon-thief';
+import { getFavicons } from 'favicon-thief';
 
-const icon = await findIcon('https://duckduckgo.com');
+const favicons = await getFavicons('https://websktop.com');
 
-console.log(icon);
-// {
-//   width: 256,
-//   height: 256,
-//   type: 'png',
-//   mime: 'image/png',
-//   wUnits: 'px',
-//   hUnits: 'px',
-//   length: 6693,
-//   url: 'https://duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png'
-// }
+console.log(JSON.stringify(favicons, null, 2));
+// [
+//   {
+//     "sizes": [
+//       {
+//         "width": 144,
+//         "height": 144
+//       }
+//     ],
+//     "source": "html",
+//     "url": "https://www.youtube.com/s/desktop/25bf5aae/img/favicon_144x144.png"
+//   },
+//   {
+//     "sizes": [
+//       {
+//         "width": 96,
+//         "height": 96
+//       }
+//     ],
+//     "source": "html",
+//     "url": "https://www.youtube.com/s/desktop/25bf5aae/img/favicon_96x96.png"
+//   },
+//   {
+//     "sizes": [
+//       {
+//         "width": 48,
+//         "height": 48
+//       }
+//     ],
+//     "source": "html",
+//     "url": "https://www.youtube.com/s/desktop/25bf5aae/img/favicon_48x48.png"
+//   },
+//   {
+//     "sizes": [
+//       {
+//         "width": 32,
+//         "height": 32
+//       }
+//     ],
+//     "source": "html",
+//     "url": "https://www.youtube.com/s/desktop/25bf5aae/img/favicon_32x32.png"
+//   },
+//   {
+//     "sizes": [],
+//     "source": "html",
+//     "url": "https://www.youtube.com/s/desktop/25bf5aae/img/favicon.ico"
+//   },
+//   {
+//     "sizes": [],
+//     "source": "guess",
+//     "url": "https://www.youtube.com/favicon.ico"
+//   },
+//   {
+//     "sizes": [],
+//     "source": "guess",
+//     "url": "https://youtube.com/favicon.ico"
+//   }
+// ]
 ```
 
-### `minSize` option
+## `findFavicons`
 
-Function will return as soon as an icon with dimensions greater than this parameter is found. Defaults to `256 * 256`.
+Finds all favicons that represent given URL.
 
-If no icon with given size is found, still, largest found icon will be returned.
-
-```ts
-import { findIcon } from 'favicon-thief';
-
-const icon = await findIcon('https://duckduckgo.com', {
-  minSize: 128 * 128,
-});
-
-console.log(icon.width + 'x' + icon.height);
-// 152x152
-```
-
-## `findIcons`
-
-Finds all icons that represent given URL.
-
-- results are sorted - best first
-- favors vector images, square images, and large images (in that order)
-- it never throws
+- Pass your own fetching function.
+- Results are sorted - best first.
+- Favors vector images, square images, and large images (in that order).
+- It never throws.
 
 ```ts
-import { findIcons } from 'favicon-thief';
+import { findFavicons } from 'favicon-thief';
 
-const icons = await findIcons('https://duckduckgo.com');
+const myFetch = async (url: string): string => {
+  // bring your own fetching implementation - turn `url` into html here
+  return {
+    data: '<html><head><link rel="icon" href="icon.png" sizes="160x160"></head></html>',
+    url, // return different url if there was a redirect
+  };
+};
 
-console.table(icons);
-// ┌─────────┬───────┬────────┬───────┬────────────────┬────────┬────────┬────────┬─────────────────────────────────────────────────────────────────────┬────────────────────────┐
-// │ (index) │ width │ height │ type  │      mime      │ wUnits │ hUnits │ length │                                 url                                 │        variants        │
-// ├─────────┼───────┼────────┼───────┼────────────────┼────────┼────────┼────────┼─────────────────────────────────────────────────────────────────────┼────────────────────────┤
-// │    0    │  256  │  256   │ 'png' │  'image/png'   │  'px'  │  'px'  │  6693  │   'https://duckduckgo.com/assets/icons/meta/DDG-icon_256x256.png'   │                        │
-// │    1    │  152  │  152   │ 'png' │  'image/png'   │  'px'  │  'px'  │  2034  │ 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_152x152.png' │                        │
-// │    2    │  120  │  120   │ 'png' │  'image/png'   │  'px'  │  'px'  │  1652  │ 'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_120x120.png' │                        │
-// │    3    │  76   │   76   │ 'png' │  'image/png'   │  'px'  │  'px'  │  1144  │  'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_76x76.png'  │                        │
-// │    4    │  60   │   60   │ 'png' │  'image/png'   │  'px'  │  'px'  │  866   │  'https://duckduckgo.com/assets/icons/meta/DDG-iOS-icon_60x60.png'  │                        │
-// │    5    │  32   │   32   │ 'ico' │ 'image/x-icon' │  'px'  │  'px'  │  5430  │                'https://duckduckgo.com/favicon.ico'                 │ [ [Object], [Object] ] │
-// └─────────┴───────┴────────┴───────┴────────────────┴────────┴────────┴────────┴─────────────────────────────────────────────────────────────────────┴────────────────────────┘
+const favicons = await findFavicons('http://example.com', myFetch);
+
+console.log(JSON.stringify(favicons, null, 2));
+// [
+//   {
+//     "sizes": [
+//       {
+//         "width": 160,
+//         "height": 160
+//       }
+//     ],
+//     "source": "html",
+//     "url": "http://example.com/icon.png"
+//   },
+//   {
+//     "sizes": [],
+//     "source": "guess",
+//     "url": "http://example.com/favicon.ico"
+//   }
+// ]
 ```
