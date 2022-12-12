@@ -13,7 +13,7 @@ const parseLinkSizes = (sizes: string | undefined): ImageSize[] => {
     return [ANY_SIZE];
   }
 
-  const imageSizes = sizes.replace(/\s+/gm, ' ').split(' ').map(parseSize);
+  const imageSizes = sizes.split(/\s+/).map(parseSize);
   const validImageSizes = imageSizes.filter(Boolean) as ImageSize[];
 
   return validImageSizes.sort(imageSizeComparator);
