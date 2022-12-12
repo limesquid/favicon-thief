@@ -1,6 +1,6 @@
-import getDefaultFaviconUrl from './getDefaultFaviconUrl';
+import guessFaviconUrl from './guessFaviconUrl';
 
-describe('getDefaultFaviconUrl', () => {
+describe('guessFaviconUrl', () => {
   const tests = [
     { input: 'https://example.com', expected: 'https://example.com/favicon.ico' },
     { input: 'https://example.com/x/y/z?xyz=123', expected: 'https://example.com/favicon.ico' },
@@ -8,7 +8,7 @@ describe('getDefaultFaviconUrl', () => {
 
   for (const { input, expected } of tests) {
     it(input, () => {
-      expect(getDefaultFaviconUrl(input)).toEqual(expected);
+      expect(guessFaviconUrl(input)).toEqual(expected);
     });
   }
 });

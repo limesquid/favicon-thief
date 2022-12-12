@@ -1,9 +1,9 @@
 import { URL } from 'url';
 
-const getDefaultFaviconUrl = (url: string): string => {
+const guessFaviconUrl = (url: string): string => {
   const { origin } = new URL(url);
   const urlObject = new URL('favicon.ico', origin);
   return urlObject.href;
 };
 
-export default getDefaultFaviconUrl;
+export default guessFaviconUrl;

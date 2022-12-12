@@ -1,7 +1,7 @@
 import type { ImageSize } from '../types';
 
 const parseSize = (size: string): ImageSize | null => {
-  const [widthString, heightString] = size.split('x');
+  const [widthString, heightString] = size.split(/x/i);
   const width = parseInt(widthString, 10);
   const height = parseInt(heightString, 10);
 

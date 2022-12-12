@@ -1,5 +1,5 @@
-export { default as findIcon } from './findIcon';
-export { default as findIcons } from './findIcons';
+export { default as findFavicons } from './findFavicons';
+export { default as getFavicons } from './getFavicons';
 export * from './constants';
 export * from './lib';
 export * from './types';
