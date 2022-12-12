@@ -17,7 +17,7 @@ const getFavicons = ($: CheerioAPI, documentHref: string): Favicon[] => {
   ];
   const baseHref = getBaseHref($, documentHref);
   const faviconLinks: Favicon[] = $links
-    .filter(($link) => isFaviconUrl($($link).attr('href')))
+    .filter(($link) => isFaviconUrl($($link).attr('href'), documentHref))
     .map(($link) => {
       const linkHref = $($link).attr('href')!;
       const linkSizes = $($link).attr('sizes');
