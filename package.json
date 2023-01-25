@@ -40,8 +40,8 @@
   "scripts": {
     "build": "parcel build",
     "clean": "rimraf build",
-    "postinstall": "patch-package",
-    "prebuild": "npm run clean",
+    "prebuild": "patch-package && npm run clean",
+    "pretest": "patch-package",
     "prerelease": "npm run prettier && npm run test && npm run build",
     "prettier": "prettier --check src/",
     "prettier:fix": "prettier --write src/",
