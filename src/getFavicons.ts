@@ -1,5 +1,3 @@
-import { RequestInit } from 'node-fetch-cjs';
-
 import findFavicons from './findFavicons';
 import { fetchStringNode, fetchStringPuppeteer } from './lib';
 import { Favicon } from './types';
@@ -10,9 +8,9 @@ import { Favicon } from './types';
  * Results are sorted - best first.
  * Favors vector images, square images, and large images (in that order).
  */
-const getFavicons = async (url: string, init?: RequestInit): Promise<Favicon[]> => {
+const getFavicons = async (url: string, headers?: Record<string, string>): Promise<Favicon[]> => {
   try {
-    const faviconLinks = await findFavicons(url, (url) => fetchStringNode(url, init));
+    const faviconLinks = await findFavicons(url, (url) => fetchStringNode(url, headers));
 
     if (faviconLinks.some(({ source }) => source !== 'guess')) {
       return faviconLinks;
@@ -24,8 +22,7 @@ const getFavicons = async (url: string, init?: RequestInit): Promise<Favicon[]> 
   }
 
   return findFavicons(url, (url) => {
-    const headers: Record<string, string> = { ...init?.headers };
-    const userAgent = headers['User-Agent'];
+    const userAgent = headers ? headers['User-Agent'] : undefined;
     return fetchStringPuppeteer(url, userAgent);
   });
 };

@@ -1,9 +1,12 @@
-import fetch, { RequestInit } from 'node-fetch-cjs';
+import fetch from 'node-fetch-cjs';
 
 import { StringResponse } from '../types';
 
-const fetchStringNode = async (url: string, init?: RequestInit): Promise<StringResponse> => {
-  const response = await fetch(url, init);
+const fetchStringNode = async (
+  url: string,
+  headers?: Record<string, string>,
+): Promise<StringResponse> => {
+  const response = await fetch(url, { headers });
 
   if (!response.ok) {
     const error = `Failed to fetch ${url}: ${response.status} ${response.statusText}`;
