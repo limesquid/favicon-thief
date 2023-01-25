@@ -1,0 +1,45 @@
+diff --git a/node_modules/cheerio/lib/options.d.ts b/node_modules/cheerio/lib/options.d.ts
+index 1e619b0..ba56773 100644
+--- a/node_modules/cheerio/lib/options.d.ts
++++ b/node_modules/cheerio/lib/options.d.ts
+@@ -16,6 +16,40 @@ export interface Parse5Options {
+     /** Enable location support for parse5. */
+     sourceCodeLocationInfo?: boolean;
+ }
++interface URLSearchParams {
++	/** Appends a specified key/value pair as a new search parameter. */
++	append(name: string, value: string): void;
++	/** Deletes the given search parameter, and its associated value, from the list of all search parameters. */
++	delete(name: string): void;
++	/** Returns the first value associated to the given search parameter. */
++	get(name: string): string | null;
++	/** Returns all the values association with a given search parameter. */
++	getAll(name: string): string[];
++	/** Returns a Boolean indicating if such a search parameter exists. */
++	has(name: string): boolean;
++	/** Sets the value associated to a given search parameter to the given value. If there were several values, delete the others. */
++	set(name: string, value: string): void;
++	sort(): void;
++	/** Returns a string containing a query string suitable for use in a URL. Does not include the question mark. */
++	toString(): string;
++	forEach(callbackfn: (value: string, key: string, parent: URLSearchParams) => void, thisArg?: any): void;
++}
++interface URL {
++	hash: string;
++	host: string;
++	hostname: string;
++	href: string;
++	toString(): string;
++	readonly origin: string;
++	password: string;
++	pathname: string;
++	port: string;
++	protocol: string;
++	search: string;
++	readonly searchParams: URLSearchParams;
++	username: string;
++	toJSON(): string;
++}
+ /**
+  * Options accepted by Cheerio.
+  *
