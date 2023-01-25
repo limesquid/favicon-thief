@@ -13,7 +13,9 @@
     "file"
   ],
   "license": "MIT",
-  "main": "./build/index.js",
+  "source": "src/index.ts",
+  "main": "build/index.js",
+  "types": "build/types.d.ts",
   "engines": {
     "node": ">=16"
   },
@@ -29,7 +31,6 @@
     "build/**",
     "patches/**"
   ],
-  "types": "./build/index.d.ts",
   "np": {
     "yarn": false
   },
@@ -37,7 +38,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc --project .",
+    "build": "parcel build",
     "clean": "rimraf build",
     "postinstall": "patch-package",
     "prebuild": "npm run clean",
@@ -50,24 +51,35 @@
     "test:top-500": "NODE_ENV=test node tests/top-500.js",
     "test:watch": "jest --watch"
   },
+  "targets": {
+    "main": {
+      "distDir": "./build",
+      "includeNodeModules": [
+        "node-fetch-cjs"
+      ]
+    }
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "node-fetch-cjs": "^3.2.10",
-    "patch-package": "^6.5.0",
-    "puppeteer": "^19.4.0",
+    "puppeteer": "^19.6.0",
     "url-toolkit": "^2.2.5",
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.2.4",
+    "@parcel/packager-ts": "^2.8.3",
+    "@parcel/transformer-typescript-types": "^2.8.3",
+    "@types/jest": "^29.2.6",
     "@types/node-fetch": "^2.6.2",
     "@types/puppeteer": "^7.0.4",
-    "@types/validator": "^13.7.10",
-    "jest": "^29.3.1",
-    "np": "^7.6.2",
-    "prettier": "^2.8.1",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^29.0.3",
+    "@types/validator": "^13.7.11",
+    "jest": "^29.4.0",
+    "node-fetch-cjs": "^3.2.10",
+    "np": "^7.6.3",
+    "parcel": "^2.8.3",
+    "patch-package": "^6.5.1",
+    "prettier": "^2.8.3",
+    "rimraf": "^4.1.2",
+    "ts-jest": "^29.0.5",
     "typescript": "^4.9.4"
   }
 }
