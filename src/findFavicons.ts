@@ -1,4 +1,4 @@
-import { load } from 'cheerio';
+import { load } from 'cheerio/lib'; // import from /lib to force non-ESM cheerio build
 
 import {
   createGuessed,

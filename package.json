@@ -55,6 +55,7 @@
     "main": {
       "distDir": "./build",
       "includeNodeModules": [
+        "cheerio",
         "node-fetch-cjs"
       ]
     }
