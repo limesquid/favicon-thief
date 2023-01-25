@@ -1,4 +1,4 @@
-import { CheerioAPI } from 'cheerio';
+import type { CheerioAPI } from 'cheerio';
 import { buildAbsoluteURL } from 'url-toolkit';
 
 import { Favicon } from '../types';
